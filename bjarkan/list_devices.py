@@ -4,7 +4,8 @@ import sys
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GObject
-import pybt
+
+from bjarkan import find_adapter, get_managed_objects
 
 
 
@@ -22,7 +23,7 @@ def scan_devices( duration = 10 ):
 	"""
 	DBusGMainLoop( set_as_default = True )
 	bus = dbus.SystemBus()
-	adapter = pybt.find_adapter()
+	adapter = find_adapter()
 
 	adapter.StartDiscovery()
 
@@ -50,15 +51,15 @@ def gather_device_info():
 	"""
 	devices = []
 	bus = dbus.SystemBus()
-	objects = pybt.get_managed_objects()
-	all_devices = ( str( path ) for path, interfaces in objects.items() if pybt.DEVICE_INTERFACE in interfaces )
+	objects = get_managed_objects()
+	all_devices = ( str( path ) for path, interfaces in objects.items() if DEVICE_INTERFACE in interfaces )
 	for path, ifaces in objects.items():
-		if pybt.ADAPTER_INTERFACE not in ifaces:
+		if ADAPTER_INTERFACE not in ifaces:
 			continue
 		device_list = [ d for d in all_devices if d.startswith( path + '/' ) ]
 		for dev_path in device_list:
 			dev = objects[dev_path]
-			properties = dev[pybt.DEVICE_INTERFACE]
+			properties = dev[DEVICE_INTERFACE]
 			rssi = None
 			if 'RSSI' in properties:
 				rssi = int( properties['RSSI'] )

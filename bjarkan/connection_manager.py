@@ -8,8 +8,9 @@ import json
 import os
 from random import randint
 import sys
-import pybt
-import pybt.list_devices
+
+from bjarkan import find_adapter, find_device, find_adapter_in_objects, find_device_in_objects, get_managed_objects
+import bjarkan.list_devices
 
 
 
@@ -62,7 +63,7 @@ def pair_device( device ):
 	agent = Agent( bus, path )
 	obj = bus.get_object( 'org.bluez', '/org/bluez' )
 	manager = dbus.Interface( obj, 'org.bluez.AgentManager1')
-	dev = pybt.find_device( device )
+	dev = find_device( device )
 
 
 	def pair_reply():
@@ -70,7 +71,7 @@ def pair_device( device ):
 		dev_path = dev.object_path
 		props = dbus.Interface(bus.get_object( 'org.bluez', dev_path ), 'org.freedesktop.DBus.Properties' )
 
-		props.Set( pybt.DEVICE_INTERFACE, 'Trusted', True )
+		props.Set( DEVICE_INTERFACE, 'Trusted', True )
 		dev.Connect()
 		mainloop.quit()
 		results.update( { 'result': result, 'code': code } )
@@ -109,9 +110,9 @@ def unpair_device( device ):
 	"""
 	result = None
 	code = None
-	managed_objects = pybt.get_managed_objects()
-	adapter = pybt.find_adapter_in_objects( managed_objects )
-	dev = pybt.find_device_in_objects( managed_objects, device )
+	managed_objects = get_managed_objects()
+	adapter = find_adapter_in_objects( managed_objects )
+	dev = find_device_in_objects( managed_objects, device )
 	dev_path = dev.object_path
 	try:
 		adapter.RemoveDevice( dev_path )
@@ -136,7 +137,7 @@ def disconnect_device( device ):
 	"""
 	result = None
 	code = None
-	dev = pybt.find_device( device )
+	dev = find_device( device )
 	try:
 		dev.Disconnect()
 		result = 'Success'
@@ -160,7 +161,7 @@ def connect_device( device ):
 	"""
 	result = None
 	code = None
-	dev = pybt.find_device( device )
+	dev = find_device( device )
 
 	try:
 		dev.Connect()

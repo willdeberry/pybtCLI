@@ -1,6 +1,10 @@
-# pybtCLI
-A bluez 5 compatible command line utility and python 3 library
+# bjarkan
+A bluez 5 compatible command line utility
 
+* [License](#license)
+* [Installation](#installation)
+	* [Requirements](#requirements)
+	* [Steps](#steps)
 * [Usage](#usage)
 	* [Pairing/Connecting](#pairingconnecting)
 	* [Unpair](#unpair)
@@ -8,14 +12,36 @@ A bluez 5 compatible command line utility and python 3 library
 	* [Disconnect](#disconnect)
 	* [Paired-devices](#paired-devices)
 	* [Connected-devices](#connected-devices)
-* [Libraries](#libraries)
-	* [pybt](#pybt)
-	* [connection_manager](#connection_manager)
-	* [list_devices](#list_devices)
+
+## License
+Copyright (c) 2016, GetWellNetwork, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+## Installation
+
+### Requirements
+```
+pygobject >= 3.18.2
+```
+
+### Steps
+```
+git clone https://github.com/willdeberry/bjarkan.git
+cd bjarkan
+python3 setup.py install
+```
 
 ## Usage
 ```
-usage: bt_manager [-h] [-j] COMMAND ...
+usage: bjarkan [-h] [-j] COMMAND ...
 
 Connect to specifed BT device
 
@@ -36,7 +62,7 @@ optional arguments:
 
 ### Pairing/Connecting
 ```
-usage: bt_manager pair [-h] -d DEVICE
+usage: bjarkan pair [-h] -d DEVICE
 
 optional arguments:
 	-h, --help					show this help message and exit
@@ -45,12 +71,12 @@ optional arguments:
 
 **Example**
 ```bash
-~$ bt_manager pair -d 00:11:22:33:44:55
+~$ bjarkan pair -d 00:11:22:33:44:55
 ```
 
 ### Unpair
 ```
-usage: bt_manager unpair [-h] -d DEVICE
+usage: bjarkan unpair [-h] -d DEVICE
 
 optional arguments:
 	-h, --help					show this help message and exit
@@ -59,12 +85,12 @@ optional arguments:
 
 **Example**
 ```bash
-~$ bt_manager unpair -d 00:11:22:33:44:55
+~$ bjarkan unpair -d 00:11:22:33:44:55
 ```
 
 ### Connect
 ```
-usage: bt_manager connect [-h] -d DEVICE
+usage: bjarkan connect [-h] -d DEVICE
 
 optional arguments:
 	-h, --help					show this help message and exit
@@ -73,12 +99,12 @@ optional arguments:
 
 **Example**
 ```bash
-~$ bt_manager connect -d 00:11:22:33:44:55
+~$ bjarkan connect -d 00:11:22:33:44:55
 ```
 
 ### Disconnect
 ```
-usage: bt_manager disconnect [-h] -d DEVICE
+usage: bjarkan disconnect [-h] -d DEVICE
 
 optional arguments:
 	-h, --help					show this help message and exit
@@ -87,12 +113,12 @@ optional arguments:
 
 **Example**
 ```bash
-~$ bt_manager disconnect -d 00:11:22:33:44:55
+~$ bjarkan disconnect -d 00:11:22:33:44:55
 ```
 
 ### Paired Devices
 ```
-usage: bt_manager paired-devices [-h]
+usage: bjarkan paired-devices [-h]
 
 optional arguments:
 	-h, --help					show this help message and exit
@@ -100,12 +126,12 @@ optional arguments:
 
 **Example**
 ```bash
-~$ bt_manager paired-devices
+~$ bjarkan paired-devices
 ```
 
 ### Connected Devices
 ```
-usage: bt_manager connected-devices [-h]
+usage: bjarkan connected-devices [-h]
 
 optional arguments:
 	-h, --help					show this help message and exit
@@ -113,12 +139,12 @@ optional arguments:
 
 **Example**
 ```bash
-~$ bt_manager connected-devices
+~$ bjarkan connected-devices
 ```
 
 ### Scan
 ```
-usage: bt_manager scan [-h]
+usage: bjarkan scan [-h]
 
 optional arguments:
 	-h, --help					show this help message and exit
@@ -126,38 +152,5 @@ optional arguments:
 
 **Example**
 ```bash
-~$ bt_manager scan
-```
-
-## Libraries
-
-### pybt
-```python
-import pybt
-
-pybt.get_managed_objects()
-pybt.find_adapter()
-pybt.find_device()
-```
-
-### connection_manager
-```python
-import pybt.connection_manager
-
-pybt.connection_manager.pair_device('00:11:22:33:44:55')
-pybt.connection_manager.unpair_device('00:11:22:33:44:55')
-pybt.connection_manager.connect_device('00:11:22:33:44:55')
-pybt.connection_manager.disconnect_device('00:11:22:33:44:55')
-```
-
-### list_devices
-```python
-import pybt.list_devices
-
-# duration is time in seconds
-pybt.list_devices.scan_devices(duration)
-pybt.list_devices.gather_device_info()
-pybt.list_devices.connected_devices()
-pybt.list_devices.paired_devices()
-pybt.list_devices.all_devices()
+~$ bjarkan scan
 ```

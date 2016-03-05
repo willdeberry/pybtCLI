@@ -5,8 +5,8 @@
 from argparse import ArgumentParser
 import json
 import sys
-from pybt.connection_manager import *
-import pybt.list_devices
+from bjarkan.connection_manager import *
+import bjarkan.list_devices
 
 
 
@@ -66,30 +66,21 @@ def disconnect( args ):
 
 
 def connected( args ):
-	return format_device_data( pybt.list_devices.connected_devices(), args.json )
+	return format_device_data( bjarkan.list_devices.connected_devices(), args.json )
 
 
 
 def paired( args ):
-	return format_device_data( pybt.list_devices.paired_devices(), args.json )
+	return format_device_data( bjarkan.list_devices.paired_devices(), args.json )
 
 
 
 def scan( args ):
-	return format_device_data( pybt.list_devices.all_devices(), args.json )
+	return format_device_data( bjarkan.list_devices.all_devices(), args.json )
 
 
 
-def main( args ):
-	result = args.func( args )
-	if result:
-		return result
-
-	return 0
-
-
-
-if __name__ == '__main__':
+def main():
 	parser = ArgumentParser( description = 'Connect to specifed BT device' )
 	parser.add_argument( '-j', '--json', action = 'store_true', help = 'Change output format to json instead of plain text' )
 	subparsers = parser.add_subparsers( metavar = 'COMMAND' )
@@ -120,5 +111,15 @@ if __name__ == '__main__':
 	list_parser = subparsers.add_parser( 'scan', help = 'Show all currently known devices' )
 	list_parser.set_defaults( func = scan )
 
-	sys.exit( main( parser.parse_args() ) )
+	args = parser.parse_args()
 
+	result = args.func( args )
+	if result:
+		return result
+
+	return 0
+
+
+
+if __name__ == '__main__':
+    main()
