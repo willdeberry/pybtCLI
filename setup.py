@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup( name = 'bjarkan',
-    version = '1.0',
+    version = '1.0.1',
     description = 'Bluetooth command line utility',
     long_description = open( 'README.rst' ).read(),
     author = 'GetWellNetwork',
