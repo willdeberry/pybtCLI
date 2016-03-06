@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 setup( name = 'bjarkan',
     version = '1.0',
     description = 'Bluetooth command line utility',
-    long_description = open( 'README.md').read(),
+    long_description = open( 'README.rst' ).read(),
     author = 'GetWellNetwork',
     author_email = 'willdeberry@gmail.com',
     license = 'BSD',
