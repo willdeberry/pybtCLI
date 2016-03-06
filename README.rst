@@ -7,7 +7,8 @@ A bluez 5 compatible command line utility
 -  `Installation <#installation>`__
 
    -  `Requirements <#requirements>`__
-   -  `Steps <#steps>`__
+   -  `Pip <#pip>`__
+   -  `Manual <#manual>`__
 
 -  `Usage <#usage>`__
 
@@ -60,8 +61,15 @@ Requirements
     python3
     pygobject >= 3.18.2
 
-Steps
-~~~~~
+Pip
+~~~
+
+::
+
+    sudo pip3 install bjarkan
+
+Manual
+~~~~~~
 
 ::
 

@@ -4,7 +4,8 @@ A bluez 5 compatible command line utility
 * [License](#license)
 * [Installation](#installation)
 	* [Requirements](#requirements)
-	* [Steps](#steps)
+	* [Pip](#pip)
+	* [Manual](#manual)
 * [Usage](#usage)
 	* [Pairing/Connecting](#pairingconnecting)
 	* [Unpair](#unpair)
@@ -33,7 +34,12 @@ python3
 pygobject >= 3.18.2
 ```
 
-### Steps
+### Pip
+```
+sudo pip3 install bjarkan
+```
+
+### Manual
 ```
 git clone https://github.com/willdeberry/bjarkan.git
 cd bjarkan
