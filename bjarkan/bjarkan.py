@@ -17,6 +17,7 @@ def format_device_data( devices, format_json ):
 			device_data = {}
 			device_data['address'] = device['address']
 			device_data['rssi'] = device['rssi']
+			device_data['icon'] = device['icon']
 			device_data['paired'] = device['paired']
 			device_data['connected'] = device['connected']
 			device_data['alias'] = device['alias']
@@ -26,11 +27,12 @@ def format_device_data( devices, format_json ):
 	else:
 		for device in devices:
 			print(
-				'{!s} {!s} {!s} {!s} {!s}'.format(
+				'{!s} {!s} {!s} {!s} {!s} {!s}'.format(
 					device['address'],
 					device['rssi'],
 					device['paired'],
 					device['connected'],
+					device['icon'],
 					device['alias']
 				)
 			)

@@ -44,6 +44,7 @@ def gather_device_info():
 					'alias': 'Bluetooth Keyboard',
 					'address': '00:00:00:00:00:00',
 					'rssi': '-54',
+					'icon': 'input-keyboard',
 					'paired': 0,
 					'connected': 0
 				}
@@ -61,13 +62,16 @@ def gather_device_info():
 			dev = objects[dev_path]
 			properties = dev[DEVICE_INTERFACE]
 			rssi = None
+			icon = None
 			if 'RSSI' in properties:
 				rssi = int( properties['RSSI'] )
+			if 'Icon' in properties:
+				icon = str( properties['Icon'] )
 			alias = properties['Alias']
 			address = properties['Address']
 			paired = properties['Paired']
 			connected = properties['Connected']
-			devices.append( { 'alias': str( alias ), 'address': str( address ), 'rssi': rssi, 'paired': int( paired ), 'connected': int( connected ) } )
+			devices.append( { 'alias': str( alias ), 'address': str( address ), 'rssi': rssi, 'icon': icon, 'paired': int( paired ), 'connected': int( connected ) } )
 
 	return devices
 
@@ -83,6 +87,7 @@ def connected_devices():
 					'alias': 'Bluetooth Keyboard',
 					'address': '00:00:00:00:00:00',
 					'rssi': '-54',
+					'icon': 'input-keyboard',
 					'paired': 1,
 					'connected': 1
 				}
@@ -108,6 +113,7 @@ def paired_devices():
 					'alias': 'Bluetooth Keyboard',
 					'address': '00:00:00:00:00:00',
 					'rssi': '-54',
+					'icon': 'input-keyboard',
 					'paired': 1,
 					'connected': 0
 				}
@@ -132,6 +138,7 @@ def all_devices():
 					'alias': 'Bluetooth Keyboard',
 					'address': '00:00:00:00:00:00',
 					'rssi': '-54',
+					'icon': 'input-keyboard',
 					'paired': 1,
 					'connected': 0
 				}
