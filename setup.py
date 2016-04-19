@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup( name = 'bjarkan',
-    version = '1.1.3',
+    version = '1.1.4',
     description = 'Bluetooth command line utility',
     long_description = open( 'README.rst' ).read(),
     keywords = 'bluez bluetooth cli',
