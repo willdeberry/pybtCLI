@@ -14,7 +14,7 @@ setup( name = 'bjarkan',
     download_url = 'https://github.com/willdeberry/bjarkan',
     packages = find_packages( exclude = ['contrib', 'docs', 'tests'] ),
     install_requires = [
-        'pygobject>=3.18.2'
+        'pygobject'
     ],
     entry_points = {
         'console_scripts': [
