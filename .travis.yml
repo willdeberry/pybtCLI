@@ -6,3 +6,4 @@ os:
   - linux
 install:
     - pip install .
+script: bjarkan --help
