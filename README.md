@@ -1,6 +1,7 @@
 # bjarkan
 
 [![PyPI version](https://badge.fury.io/py/bjarkan.svg)](https://badge.fury.io/py/bjarkan)
+[![PyPI](https://img.shields.io/pypi/pyversions/bjarkan.svg)](https://pypi.python.org/pypi/bjarkan)
 [![License](http://img.shields.io/:license-bsd-blue.svg)](https://github.com/willdeberry/bjarkan/blob/master/LICENSE)
 
 A bluez 5 compatible command line utility

@@ -1,7 +1,7 @@
 bjarkan
 =======
 
-|PyPI version| |License|
+|PyPI version| |PyPI| |License|
 
 A bluez 5 compatible command line utility
 
@@ -219,5 +219,7 @@ Scan
 
 .. |PyPI version| image:: https://badge.fury.io/py/bjarkan.svg
    :target: https://badge.fury.io/py/bjarkan
+.. |PyPI| image:: https://img.shields.io/pypi/pyversions/bjarkan.svg
+   :target: https://pypi.python.org/pypi/bjarkan
 .. |License| image:: http://img.shields.io/:license-bsd-blue.svg
    :target: https://github.com/willdeberry/bjarkan/blob/master/LICENSE
