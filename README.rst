@@ -1,7 +1,7 @@
 bjarkan
 =======
 
-|PyPI version| |PyPI| |License|
+|Build Status| |PyPI version| |PyPI| |License|
 
 A bluez 5 compatible command line utility
 
@@ -60,7 +60,7 @@ Requirements
 ::
 
     python3
-    pygobject >= 3.18.2
+    pygobject (install via package manager)
 
 Pip
 ~~~
@@ -217,6 +217,8 @@ Scan
 
     ~$ bjarkan scan
 
+.. |Build Status| image:: https://travis-ci.org/willdeberry/bjarkan.svg?branch=master
+   :target: https://travis-ci.org/willdeberry/bjarkan
 .. |PyPI version| image:: https://badge.fury.io/py/bjarkan.svg
    :target: https://badge.fury.io/py/bjarkan
 .. |PyPI| image:: https://img.shields.io/pypi/pyversions/bjarkan.svg
