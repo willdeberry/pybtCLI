@@ -13,6 +13,9 @@ setup( name = 'bjarkan',
     url = 'https://github.com/willdeberry/bjarkan',
     download_url = 'https://github.com/willdeberry/bjarkan',
     packages = find_packages( exclude = ['contrib', 'docs', 'tests'] ),
+    install_requires = [
+        'dbus-python'
+    ],
     entry_points = {
         'console_scripts': [
             'bjarkan = bjarkan.bjarkan:main'
