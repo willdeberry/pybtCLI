@@ -4,9 +4,5 @@ python:
   - "3.5"
 os:
   - linux
-before_install:
-  - pip install codecov
 install:
     - pip install .
-after_success:
-  - codecov
