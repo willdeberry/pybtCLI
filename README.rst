@@ -59,8 +59,7 @@ Requirements
 
 ::
 
-    python3
-    pygobject (install via package manager)
+    sudo apt-get install -y python-gi-dev python3-dbus python3
 
 Pip
 ~~~
