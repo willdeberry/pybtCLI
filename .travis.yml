@@ -4,6 +4,13 @@ python:
   - "3.5"
 os:
   - linux
+sudo: required
+dist: trusty
+virtualenv:
+    system_site_packages: true
+before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y python-gi-dev python3-dbus
 install:
     - pip install .
 script: bjarkan --help
