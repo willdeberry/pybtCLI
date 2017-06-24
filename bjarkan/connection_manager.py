@@ -9,7 +9,7 @@ import os
 from random import randint
 import sys
 
-from bjarkan import find_adapter, find_device, find_adapter_in_objects, find_device_in_objects, get_managed_objects
+from bjarkan import DEVICE_INTERFACE, find_adapter, find_device, find_adapter_in_objects, find_device_in_objects, get_managed_objects
 import bjarkan.list_devices
 
 

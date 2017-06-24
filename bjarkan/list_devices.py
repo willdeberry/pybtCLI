@@ -5,7 +5,7 @@ import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GObject
 
-from bjarkan import find_adapter, get_managed_objects
+from bjarkan import ADAPTER_INTERFACE, DEVICE_INTERFACE, find_adapter, get_managed_objects
 
 
 
