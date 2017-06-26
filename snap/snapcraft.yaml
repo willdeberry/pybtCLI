@@ -1,0 +1,19 @@
+name: bjarkan
+version: '0.1.6'
+summary: Command line bluetooth utility
+description: |
+    A command line bluetooth utility that allows you to completely manage all
+    things bluetooth. Scanning, pairing, listing of devices.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+apps:
+    bjarkan:
+        command: bjarkan
+
+parts:
+    bjarkan:
+        stage-packages: [python3-gi, python3-dbus, gir1.2-glib-2.0, libgirepository-1.0-1, libdbus-glib-1-2]
+        source: .
+        plugin: python
