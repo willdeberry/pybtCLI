@@ -1,5 +1,10 @@
 *__pycache__*
 *.pyc
+*.snap
 bjarkan.egg-info
 build
 dist
+parts
+prime
+stage
+
