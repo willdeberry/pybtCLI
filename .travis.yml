@@ -10,7 +10,7 @@ virtualenv:
     system_site_packages: true
 before_install:
     - sudo apt-get -qq update
-    - sudo apt-get install -y python3-gi python3-dbus gir1.2-gst-plugins-base-1.0, gir1.2-gtk-3.0
+    - sudo apt-get install -y python3-gi python3-dbus
 install:
     - pip install .
 script: bjarkan --help
