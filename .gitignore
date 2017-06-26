@@ -1,6 +1,7 @@
 *__pycache__*
 *.pyc
 *.snap
+.snapcraft
 bjarkan.egg-info
 build
 dist
