@@ -1,5 +1,5 @@
 name: bjarkan
-version: '0.1.6'
+version: '1.1.7'
 summary: Command line bluetooth utility
 description: |
   A command line bluetooth utility that allows you to completely manage all
