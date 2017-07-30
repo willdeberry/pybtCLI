@@ -39,6 +39,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 sudo apt-get install -y python-gi-dev python3-dbus python3
 ```
 
+### Snap Package
+```
+sudo snap install bjarkan
+```
+
 ### Pip
 ```
 sudo pip3 install bjarkan

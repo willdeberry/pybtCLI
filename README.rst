@@ -61,6 +61,13 @@ Requirements
 
     sudo apt-get install -y python-gi-dev python3-dbus python3
 
+Snap Package
+~~~~~~~~~~~~
+
+::
+
+    sudo snap install bjarkan
+
 Pip
 ~~~
 
