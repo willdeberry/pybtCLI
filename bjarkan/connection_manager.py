@@ -1,176 +1,240 @@
 # Copyright 2016 GetWellNetwork, Inc., BSD copyright and disclaimer apply
 
 import dbus
-import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
-from gi.repository import GObject
+import dbus.service
+from gi.repository.GObject import MainLoop
 import json
 import os
 from random import randint
 import sys
 
-from bjarkan import DEVICE_INTERFACE, find_adapter, find_device, find_adapter_in_objects, find_device_in_objects, get_managed_objects
-import bjarkan.list_devices
+from bjarkan import DEVICE_INTERFACE
 
 
-
-DBusGMainLoop( set_as_default=True )
-
+DBusGMainLoop(set_as_default=True)
 
 
-class Agent( dbus.service.Object ):
-	"""This is the code that deals with generating a PIN code if needed by the bluetooth device
-	we are connecting to in order to complete the authentication handshake.
-	"""
-	AGENT_INTERFACE = 'org.bluez.Agent1'
-	exit_on_release = True
+class Agent(dbus.service.Object):
+    """
+    This is the code that deals with generating a PIN code if needed by the bluetooth device
+    we are connecting to in order to complete the authentication handshake.
+    """
+    AGENT_INTERFACE = 'org.bluez.Agent1'
+    exit_on_release = True
+
+    def set_exit_on_release(self, exit_on_release):
+        self.exit_on_release = exit_on_release
+
+    @dbus.service.method(AGENT_INTERFACE)
+    def Release(self):
+        if self.exit_on_release:
+            mainloop.quit()
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature = 'os')
+    def DisplayPinCode(self, device, pincode):
+        print('DisplayPinCode ({}, {})'.format(device, pincode))
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature = 'ou')
+    def RequestConfirmation(self, device, passkey):
+        print('RequestConfirmation ({}, {})'.format(device, passkey))
 
 
-	def set_exit_on_release( self, exit_on_release ):
-		self.exit_on_release = exit_on_release
+class Device:
+    def __init__(self, address):
+        self.mainloop = MainLoop()
+        self.bus = dbus.SystemBus()
+        self.manager = dbus.Interface(self.bus.get_object( SERVICE_NAME, '/' ), 'org.freedesktop.DBus.ObjectManager' )
 
+        self.result = None
+        self.code = None
+        self.address = address
+        self.dev = self.find_device(self.address)
 
-	@dbus.service.method( AGENT_INTERFACE, in_signature = '', out_signature = '' )
-	def Release( self ):
-		if self.exit_on_release:
-			mainloop.quit()
+    def find_device( self, adapter_pattern = None ):
+        """
+        Attempt to find the device address in the list of known devices in the dbus bluetooth database.
 
+        Args:
+            pattern: the name of the bluetooth adapter
 
-	@dbus.service.method( AGENT_INTERFACE, in_signature = 'os', out_signature = '' )
-	def DisplayPinCode( self, device, pincode ):
-		print( 'DisplayPinCode ({}, {})'.format( device, pincode ) )
+        Returns:
+            Object that represents the bluetooth adapter installed in the host.
+        """
+        return self.find_device_in_objects(self.manager.GetManagedObjects())
 
+    def find_adapter(self, pattern = None):
+        """Find the adapter for this specific host.
 
-	@dbus.service.method( AGENT_INTERFACE, in_signature = 'ou', out_signature = '' )
-	def RequestConfirmation( self, device, passkey ):
-		print( 'RequestConfirmation ({}, {})'.format( device, passkey ) )
+        Args:
+            pattern: the name of the bluetooth adapter
 
+        Returns:
+            Object that represents the bluetooth adapter installed in the host.
+        """
+        return self.find_adapter_in_objects(self.manager.GetManagedObjects())
 
-def pair_device( device ):
-	"""Does the act of attempting to pair to the bluetooth device specified.
+    def find_adapter_in_objects(self, objects, pattern = None):
+        """
+        Does the heavy lifting of sifting through the dbus bluetooth database to find the adapter
+        that is installed and used on the host system.
 
-	Args:
-		device: mac address of the bluetooth device to connect to
-		json: to change the return format to json instead of plain text. Meant for API use.
-	"""
-	result = None
-	code = None
-	results = {}
-	mainloop = GObject.MainLoop()
-	bus = dbus.SystemBus()
-	capability = 'KeyboardDisplay'
-	path = '/test/agent'
-	agent = Agent( bus, path )
-	obj = bus.get_object( 'org.bluez', '/org/bluez' )
-	manager = dbus.Interface( obj, 'org.bluez.AgentManager1')
-	dev = find_device( device )
+        Args:
+            objects: the current contents of the dbus bluetooth
+            pattern: the name of the bluetooth adapter
 
+        Returns:
+            Object that represents the bluetooth adapter installed in the host.
 
-	def pair_reply():
-		result = 'Success'
-		dev_path = dev.object_path
-		props = dbus.Interface(bus.get_object( 'org.bluez', dev_path ), 'org.freedesktop.DBus.Properties' )
+        Raises:
+            AdapterNotFound: bluetooth adapter was not found in the dbus bluetooth database.
+        """
+        for path, ifaces in objects.items():
+            adapter = ifaces.get(ADAPTER_INTERFACE)
+            if not adapter:
+                continue
+            # If pattern is None
+            # or
+            # If pattern is equal to the value of the 'Address' property of the assumed adapter
+            # or
+            # If the assumed adapter ends with the pattern provided i.e: hci0
+            if not pattern or pattern == adapter['Address'] or path.endswith(pattern):
+                obj = self.bus.get_object(SERVICE_NAME, path)
+                return dbus.Interface(obj, ADAPTER_INTERFACE)
 
-		props.Set( DEVICE_INTERFACE, 'Trusted', True )
-		dev.Connect()
-		mainloop.quit()
-		results.update( { 'result': result, 'code': code } )
+        raise AdapterNotFound('Bluetooth adapter not found: {}'.format(pattern))
 
+    def find_device_in_objects( objects, adapter_pattern = None ):
+        """
+        Does the heavy lifting of sifting through the dbus bluetooth database to match
+        upon the device_address provided.
 
-	def pair_error( error ):
-		result = 'Error'
-		err = error.get_dbus_name()
-		if err == 'org.freedesktop.DBus.Error.NoReply' and dev:
-			code = 'Timeout'
-			dev.CancelPairing()
-		if err in ( 'org.bluez.Error.AuthenticationCanceled', 'org.bluez.Error.AuthenticationFailed',
-				'org.bluez.Error.AuthenticationRejected', 'org.bluez.Error.AuthenticationTimeout' ):
-			code = 'AuthenticationError'
-		else:
-			code = 'CreatingDeviceFailed'
+        Args:
+            objects: the current contents of the dbus bluetooth
+            pattern: the name of the bluetooth adapter
 
-		mainloop.quit()
-		results.update( { 'result': result, 'code': code } )
+        Returns:
+            Object that represents the bluetooth device.
 
+        Raises:
+            DeviceNotFound: bluetooth device was not found in the dbus bluetooth database.
+        """
+        path_prefix = ''
+        if adapter_pattern:
+            adapter = self.find_adapter_in_objects(objects, adapter_pattern)
+            path_prefix = adapter.object_path
+        for path, ifaces in objects.items():
+            device = ifaces.get(DEVICE_INTERFACE)
+            if not device:
+                continue
+            if device['Address'] == self.address and path.startswith(path_prefix):
+                obj = self.bus.get_object(SERVICE_NAME, path)
+                return dbus.Interface(obj, DEVICE_INTERFACE)
 
-	manager.RegisterAgent( path, capability )
-	agent.set_exit_on_release( False )
-	dev.Pair( reply_handler = pair_reply, error_handler = pair_error, timeout = 60000 )
-	mainloop.run()
-	return results
+        raise DeviceNotFound('Bluetooth device not found: {} {}'.format(self.address, adapter_pattern))
 
+    def pair_reply(self):
+        self.result = 'Success'
+        dev_path = self.dev.object_path
+        props = dbus.Interface(bus.get_object('org.bluez', dev_path), 'org.freedesktop.DBus.Properties')
 
+        props.Set(DEVICE_INTERFACE, 'Trusted', True)
+        self.dev.Connect()
+        self.mainloop.quit()
+        self.results.update({'result': self.result, 'code': self.code})
 
-def unpair_device( device ):
-	"""Does the act of attempting to unpair to the bluetooth device specified.
+    def pair_error(self, error):
+        self.result = 'Error'
+        err = error.get_dbus_name()
+        if err == 'org.freedesktop.DBus.Error.NoReply' and self.dev:
+            self.code = 'Timeout'
+            self.dev.CancelPairing()
+        if err in ('org.bluez.Error.AuthenticationCanceled', 'org.bluez.Error.AuthenticationFailed',
+                'org.bluez.Error.AuthenticationRejected', 'org.bluez.Error.AuthenticationTimeout'):
+            self.code = 'AuthenticationError'
+        else:
+            self.code = 'CreatingDeviceFailed'
 
-	Args:
-		device: mac address of the bluetooth device to connect to
-		json: to change the return format to json instead of plain text. Meant for API use.
-	"""
-	result = None
-	code = None
-	managed_objects = get_managed_objects()
-	adapter = find_adapter_in_objects( managed_objects )
-	dev = find_device_in_objects( managed_objects, device )
-	dev_path = dev.object_path
-	try:
-		adapter.RemoveDevice( dev_path )
-		result = 'Success'
-	except dbus.exceptions.DBusException as e:
-		result = 'Error'
-		code = e.get_dbus_name()
-	except:
-		result = 'Error'
-		code = 'UnpairFailure'
-	finally:
-		return { 'result': result, 'code': code }
+        self.mainloop.quit()
+        self.results.update({'result': self.result, 'code': self.code})
 
+    def pair_device(self):
+        """
+        Does the act of attempting to pair to the bluetooth device specified.
 
+        Returns:
+            results (dict): Dictionary consisting of the result of pairing attempt
+        """
+        self.results = {}
+        capability = 'KeyboardDisplay'
+        path = '/test/agent'
+        agent = Agent(self.bus, path)
+        obj = self.bus.get_object('org.bluez', '/org/bluez')
+        manager = dbus.Interface( obj, 'org.bluez.AgentManager1')
 
-def disconnect_device( device ):
-	"""Does the act of attempting to discconnect to the bluetooth device specified.
+        manager.RegisterAgent(path, capability)
+        agent.set_exit_on_release(False)
+        self.dev.Pair(reply_handler = self.pair_reply, error_handler = self.pair_error, timeout = 60000)
+        self.mainloop.run()
+        return self.results
 
-	Args:
-		device: mac address of the bluetooth device to connect to
-		json: to change the return format to json instead of plain text. Meant for API use.
-	"""
-	result = None
-	code = None
-	dev = find_device( device )
-	try:
-		dev.Disconnect()
-		result = 'Success'
-	except dbus.exceptions.DBusException as e:
-		result = 'Error'
-		code = e.get_dbus_name()
-	except:
-		result = 'Error'
-		code = 'DisconnectFailure'
-	finally:
-		return { 'result': result, 'code': code }
+    def unpair_device(self):
+        """
+        Does the act of attempting to unpair to the bluetooth device specified.
 
+        Returns:
+            results (dict): Dictionary consisting of the result of unpairing attempt
+        """
+        managed_objects = self.manager.GetManagedObjects()
+        adapter = self.find_adapter_in_objects(managed_objects)
+        dev = self.find_device_in_objects(managed_objects)
+        dev_path = dev.object_path
+        try:
+            adapter.RemoveDevice(dev_path)
+            self.result = 'Success'
+        except dbus.exceptions.DBusException as e:
+            self.result = 'Error'
+            self.code = e.get_dbus_name()
+        except:
+            self.result = 'Error'
+            self.code = 'UnpairFailure'
+        finally:
+            return {'result': self.result, 'code': self.code}
 
+    def disconnect_device(self):
+        """
+        Does the act of attempting to discconnect to the bluetooth device specified.
 
-def connect_device( device ):
-	"""Does the act of attempting to connect to the bluetooth device specified.
+        Returns:
+            results (dict): Dictionary consisting of the result of disconnect attempt
+        """
+        try:
+            self.dev.Disconnect()
+            self.result = 'Success'
+        except dbus.exceptions.DBusException as e:
+            self.result = 'Error'
+            self.code = e.get_dbus_name()
+        except:
+            self.result = 'Error'
+            self.code = 'DisconnectFailure'
+        finally:
+            return {'result': self.result, 'code': self.code}
 
-	Args:
-		device: mac address of the bluetooth device to connect to
-		json: to change the return format to json instead of plain text. Meant for API use.
-	"""
-	result = None
-	code = None
-	dev = find_device( device )
+    def connect_device(self):
+        """
+        Does the act of attempting to connect to the bluetooth device specified.
 
-	try:
-		dev.Connect()
-		result = 'Success'
-	except dbus.exceptions.DBusException as e:
-		result = 'Error'
-		code = e.get_dbus_name()
-	except:
-		result = 'Error'
-		code = 'ConnectionFailure'
-	finally:
-		return { 'result': result, 'code': code }
+        Returns:
+            results (dict): Dictionary consisting of the result of connection attempt
+        """
+        try:
+            self.dev.Connect()
+            self.result = 'Success'
+        except dbus.exceptions.DBusException as e:
+            self.result = 'Error'
+            self.code = e.get_dbus_name()
+        except:
+            self.result = 'Error'
+            self.code = 'ConnectionFailure'
+        finally:
+            return {'result': self.result, 'code': self.code}
