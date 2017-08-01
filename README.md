@@ -34,11 +34,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ## Installation
 
-### Requirements
-```
-sudo apt-get install -y python-gi-dev python3-dbus python3
-```
-
 ### Snap Package
 ```
 sudo snap install bjarkan
@@ -46,11 +41,13 @@ sudo snap install bjarkan
 
 ### Pip
 ```
+sudo apt-get install -y python3-gi python3-dbus python3 python3-pip
 sudo pip3 install bjarkan
 ```
 
 ### Manual
 ```
+sudo apt-get install -y python3-gi python3-dbus python3 python3-pip
 git clone https://github.com/willdeberry/bjarkan.git
 cd bjarkan
 python3 setup.py install
