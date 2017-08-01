@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup( name = 'bjarkan',
-    version = '1.1.7',
+    version = '1.1.8',
     description = 'Bluetooth command line utility',
     long_description = open( 'README.rst' ).read(),
     keywords = 'bluez bluetooth cli',
@@ -15,7 +15,7 @@ setup( name = 'bjarkan',
     packages = find_packages( exclude = ['contrib', 'docs', 'tests'] ),
     entry_points = {
         'console_scripts': [
-            'bjarkan = bjarkan.bjarkan:main'
+            'bjarkan = bjarkan.cli:main'
         ],
     },
     classifiers = [

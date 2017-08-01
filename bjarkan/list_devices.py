@@ -1,12 +1,10 @@
 # Copyright 2016 GetWellNetwork, Inc., BSD copyright and disclaimer apply
 
-import sys
 import dbus
-from dbus.mainloop.glib import DBusGMainLoop
 from gi.repository import GObject
 
-from bjarkan import ADAPTER_INTERFACE, DEVICE_INTERFACE
-from bjarkan.connection_manager import Device
+from bjarkan import ADAPTER_INTERFACE, DEVICE_INTERFACE, SERVICE_NAME
+from bjarkan.device_manager import DeviceManager
 
 
 
@@ -22,9 +20,8 @@ def scan_devices( duration = 10 ):
     Args:
         duration (int): the amount of time that the scan should run for in seconds.
     """
-    DBusGMainLoop( set_as_default = True )
     bus = dbus.SystemBus()
-    adapter = Device().find_adapter()
+    adapter = DeviceManager().find_adapter()
 
     adapter.StartDiscovery()
 
@@ -58,7 +55,7 @@ def gather_device_info():
     """
     devices = []
     bus = dbus.SystemBus()
-    .manager = dbus.Interface(bus.get_object( SERVICE_NAME, '/' ), 'org.freedesktop.DBus.ObjectManager' )
+    manager = dbus.Interface(bus.get_object( SERVICE_NAME, '/' ), 'org.freedesktop.DBus.ObjectManager' )
     objects = manager.GetManagedObjects()
     all_devices = ( str( path ) for path, interfaces in objects.items() if DEVICE_INTERFACE in interfaces )
     for path, ifaces in objects.items():

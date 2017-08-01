@@ -1,47 +1,14 @@
 # Copyright 2016 GetWellNetwork, Inc., BSD copyright and disclaimer apply
 
 import dbus
-from dbus.mainloop.glib import DBusGMainLoop
-import dbus.service
 from gi.repository.GObject import MainLoop
-import json
-import os
-from random import randint
-import sys
 
-from bjarkan import DEVICE_INTERFACE
+from bjarkan import ADAPTER_INTERFACE, SERVICE_NAME, DEVICE_INTERFACE, DeviceNotFound, AdapterNotFound
+from bjarkan.agent import Agent
 
 
-DBusGMainLoop(set_as_default=True)
-
-
-class Agent(dbus.service.Object):
-    """
-    This is the code that deals with generating a PIN code if needed by the bluetooth device
-    we are connecting to in order to complete the authentication handshake.
-    """
-    AGENT_INTERFACE = 'org.bluez.Agent1'
-    exit_on_release = True
-
-    def set_exit_on_release(self, exit_on_release):
-        self.exit_on_release = exit_on_release
-
-    @dbus.service.method(AGENT_INTERFACE)
-    def Release(self):
-        if self.exit_on_release:
-            mainloop.quit()
-
-    @dbus.service.method(AGENT_INTERFACE, in_signature = 'os')
-    def DisplayPinCode(self, device, pincode):
-        print('DisplayPinCode ({}, {})'.format(device, pincode))
-
-    @dbus.service.method(AGENT_INTERFACE, in_signature = 'ou')
-    def RequestConfirmation(self, device, passkey):
-        print('RequestConfirmation ({}, {})'.format(device, passkey))
-
-
-class Device:
-    def __init__(self, address):
+class DeviceManager:
+    def __init__(self, address = None):
         self.mainloop = MainLoop()
         self.bus = dbus.SystemBus()
         self.manager = dbus.Interface(self.bus.get_object( SERVICE_NAME, '/' ), 'org.freedesktop.DBus.ObjectManager' )
@@ -49,7 +16,9 @@ class Device:
         self.result = None
         self.code = None
         self.address = address
-        self.dev = self.find_device(self.address)
+
+        if self.address:
+            self.dev = self.find_device(self.address)
 
     def find_device( self, adapter_pattern = None ):
         """
@@ -104,7 +73,7 @@ class Device:
 
         raise AdapterNotFound('Bluetooth adapter not found: {}'.format(pattern))
 
-    def find_device_in_objects( objects, adapter_pattern = None ):
+    def find_device_in_objects(self, objects, adapter_pattern = None):
         """
         Does the heavy lifting of sifting through the dbus bluetooth database to match
         upon the device_address provided.
@@ -136,7 +105,7 @@ class Device:
     def pair_reply(self):
         self.result = 'Success'
         dev_path = self.dev.object_path
-        props = dbus.Interface(bus.get_object('org.bluez', dev_path), 'org.freedesktop.DBus.Properties')
+        props = dbus.Interface(self.bus.get_object('org.bluez', dev_path), 'org.freedesktop.DBus.Properties')
 
         props.Set(DEVICE_INTERFACE, 'Trusted', True)
         self.dev.Connect()
