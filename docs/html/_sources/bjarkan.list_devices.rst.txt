@@ -1,0 +1,7 @@
+bjarkan\.list\_devices module
+=============================
+
+.. automodule:: bjarkan.list_devices
+    :members:
+    :undoc-members:
+    :show-inheritance:

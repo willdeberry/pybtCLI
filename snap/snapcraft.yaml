@@ -1,6 +1,6 @@
 name: bjarkan
 architectures: [amd64]
-version: '1.1.9'
+version: '1.2.0'
 summary: Command line bluetooth utility
 description: |
   A command line bluetooth utility that allows you to completely manage all

@@ -1,0 +1,7 @@
+bjarkan\.agent module
+=====================
+
+.. automodule:: bjarkan.agent
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+bjarkan\.cli module
+===================
+
+.. automodule:: bjarkan.cli
+    :members:
+    :undoc-members:
+    :show-inheritance:

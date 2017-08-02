@@ -1,0 +1,7 @@
+bjarkan\.device\_manager module
+===============================
+
+.. automodule:: bjarkan.device_manager
+    :members:
+    :undoc-members:
+    :show-inheritance:

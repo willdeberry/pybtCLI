@@ -1,18 +1,24 @@
 #!/usr/bin/python3
 
+import os
 from setuptools import setup, find_packages
+import sys
 
-setup( name = 'bjarkan',
-    version = '1.1.9',
-    description = 'Bluetooth command line utility',
+sys.path.insert( 0, os.path.abspath( '.' ) )
+import bjarkan
+
+setup(
+    name = bjarkan.__title__,
+    version = bjarkan.__version__,
+    description = bjarkan.__description__,
     long_description = open( 'README.rst' ).read(),
     keywords = 'bluez bluetooth cli',
-    author = 'GetWellNetwork',
-    author_email = 'willdeberry@gmail.com',
-    license = 'Copyright 2016 GetWellNetwork, Inc., BSD copyright and disclaimer apply',
+    author = bjarkan.__author__,
+    author_email = bjarkan.__author_email__,
+    license = bjarkan.__copyright__,
     url = 'https://github.com/willdeberry/bjarkan',
     download_url = 'https://github.com/willdeberry/bjarkan',
-    packages = find_packages( exclude = ['contrib', 'docs', 'tests'] ),
+    packages = find_packages( exclude = ['contrib', 'sphinx', 'docs', 'tests'] ),
     entry_points = {
         'console_scripts': [
             'bjarkan = bjarkan.cli:main'

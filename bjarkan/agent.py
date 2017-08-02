@@ -1,5 +1,13 @@
 # Copyright 2016 GetWellNetwork, Inc., BSD copyright and disclaimer apply
 
+"""
+Agent to broker the authentication handshake between devices.
+
+This supports the following handshake methods:
+    * pincode: a code that is displayed for the user to type into the other device
+    * passkey: number that shows on both devices for the user to validate they are the same
+"""
+
 import dbus.service
 
 class Agent(dbus.service.Object):

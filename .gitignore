@@ -1,6 +1,8 @@
 *__pycache__*
 *.pyc
 *.snap
+*.rst
+*.bz2
 .snapcraft
 bjarkan.egg-info
 build
@@ -9,4 +11,3 @@ parts
 prime
 stage
 
-*.bz2

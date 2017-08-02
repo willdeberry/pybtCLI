@@ -9,16 +9,16 @@ A bluez 5 compatible command line utility
 
 * [License](#license)
 * [Installation](#installation)
-	* [Requirements](#requirements)
-	* [Pip](#pip)
-	* [Manual](#manual)
+    * [Requirements](#requirements)
+    * [Pip](#pip)
+    * [Manual](#manual)
 * [Usage](#usage)
-	* [Pairing/Connecting](#pairingconnecting)
-	* [Unpair](#unpair)
-	* [Connect](#connect)
-	* [Disconnect](#disconnect)
-	* [Paired-devices](#paired-devices)
-	* [Connected-devices](#connected-devices)
+    * [Pairing/Connecting](#pairingconnecting)
+    * [Unpair](#unpair)
+    * [Connect](#connect)
+    * [Disconnect](#disconnect)
+    * [Paired-devices](#paired-devices)
+    * [Connected-devices](#connected-devices)
 
 ## License
 Copyright (c) 2016, GetWellNetwork, Inc.
@@ -60,18 +60,18 @@ usage: bjarkan [-h] [-j] COMMAND ...
 Connect to specifed BT device
 
 positional arguments:
-	COMMAND
-		pair				Pair a device (pairing will also connect)
-		unpair				Unpair a device
-		connect				Connect a new device
-		disconnect			Disconnect a device
-		paired-devices		Show all paired devices
-		connected-devices	Show all connected devices
-		scan				Show all currently known devices
+    COMMAND
+        pair                Pair a device (pairing will also connect)
+        unpair              Unpair a device
+        connect             Connect a new device
+        disconnect          Disconnect a device
+        paired-devices      Show all paired devices
+        connected-devices   Show all connected devices
+        scan                Show all currently known devices
 
 optional arguments:
-	-h, --help				show this help message and exit
-	-j, --json				Change output format to json instead of plain text
+    -h, --help              show this help message and exit
+    -j, --json              Change output format to json instead of plain text
 ```
 
 ### Pairing/Connecting
@@ -79,8 +79,8 @@ optional arguments:
 usage: bjarkan pair [-h] -d DEVICE
 
 optional arguments:
-	-h, --help					show this help message and exit
-	-d DEVICE, --device DEVICE	Specify the device to pair
+    -h, --help                  show this help message and exit
+    -d DEVICE, --device DEVICE  Specify the device to pair
 ```
 
 **Example**
@@ -93,8 +93,8 @@ optional arguments:
 usage: bjarkan unpair [-h] -d DEVICE
 
 optional arguments:
-	-h, --help					show this help message and exit
-	-d DEVICE, --device DEVICE	Specify the device to unpair
+    -h, --help                  show this help message and exit
+    -d DEVICE, --device DEVICE  Specify the device to unpair
 ```
 
 **Example**
@@ -107,8 +107,8 @@ optional arguments:
 usage: bjarkan connect [-h] -d DEVICE
 
 optional arguments:
-	-h, --help					show this help message and exit
-	-d DEVICE, --device DEVICE	Specify the device to connect to
+    -h, --help                  show this help message and exit
+    -d DEVICE, --device DEVICE  Specify the device to connect to
 ```
 
 **Example**
@@ -121,8 +121,8 @@ optional arguments:
 usage: bjarkan disconnect [-h] -d DEVICE
 
 optional arguments:
-	-h, --help					show this help message and exit
-	-d DEVICE, --device DEVICE	Specify the device to disconnect from
+    -h, --help                  show this help message and exit
+    -d DEVICE, --device DEVICE  Specify the device to disconnect from
 ```
 
 **Example**
@@ -135,7 +135,7 @@ optional arguments:
 usage: bjarkan paired-devices [-h]
 
 optional arguments:
-	-h, --help					show this help message and exit
+    -h, --help                  show this help message and exit
 ```
 
 **Example**
@@ -148,7 +148,7 @@ optional arguments:
 usage: bjarkan connected-devices [-h]
 
 optional arguments:
-	-h, --help					show this help message and exit
+    -h, --help                  show this help message and exit
 ```
 
 **Example**
@@ -161,7 +161,7 @@ optional arguments:
 usage: bjarkan scan [-h]
 
 optional arguments:
-	-h, --help					show this help message and exit
+    -h, --help                  show this help message and exit
 ```
 
 **Example**

@@ -7,14 +7,13 @@ from bjarkan import ADAPTER_INTERFACE, DEVICE_INTERFACE, SERVICE_NAME
 from bjarkan.device_manager import DeviceManager
 
 
-
 def quit( mainloop ):
     mainloop.quit()
 
 
-
 def scan_devices( duration = 10 ):
-    """ This causes the bluetooth system to scan for any broadcasting devices. Once found, the devices get added to a
+    """
+    This causes the bluetooth system to scan for any broadcasting devices. Once found, the devices get added to a
     dbus backed database specific for bluetooth for retrieval later.
 
     Args:
@@ -26,13 +25,13 @@ def scan_devices( duration = 10 ):
     adapter.StartDiscovery()
 
     mainloop = GObject.MainLoop()
-    GObject.timeout_add( duration * 1000, quit, mainloop )
+    GObject.timeout_add(duration * 1000, quit, mainloop)
     mainloop.run()
 
 
-
 def gather_device_info():
-    """This function is responsible for digging through the dbus bluetooth database and retrieving all the known
+    """
+    This function is responsible for digging through the dbus bluetooth database and retrieving all the known
     devices and the information about those devices. The database is seeded from scan_devices.
 
     Returns:
@@ -55,34 +54,34 @@ def gather_device_info():
     """
     devices = []
     bus = dbus.SystemBus()
-    manager = dbus.Interface(bus.get_object( SERVICE_NAME, '/' ), 'org.freedesktop.DBus.ObjectManager' )
+    manager = dbus.Interface(bus.get_object(SERVICE_NAME, '/'), 'org.freedesktop.DBus.ObjectManager')
     objects = manager.GetManagedObjects()
-    all_devices = ( str( path ) for path, interfaces in objects.items() if DEVICE_INTERFACE in interfaces )
+    all_devices = (str(path) for path, interfaces in objects.items() if DEVICE_INTERFACE in interfaces)
     for path, ifaces in objects.items():
         if ADAPTER_INTERFACE not in ifaces:
             continue
-        device_list = [ d for d in all_devices if d.startswith( path + '/' ) ]
+        device_list = [d for d in all_devices if d.startswith(path + '/')]
         for dev_path in device_list:
             dev = objects[dev_path]
             properties = dev[DEVICE_INTERFACE]
             rssi = None
             icon = None
             if 'RSSI' in properties:
-                rssi = int( properties['RSSI'] )
+                rssi = int(properties['RSSI'])
             if 'Icon' in properties:
-                icon = str( properties['Icon'] )
+                icon = str(properties['Icon'])
             alias = properties['Alias']
             address = properties['Address']
             paired = properties['Paired']
             connected = properties['Connected']
-            devices.append( { 'alias': str( alias ), 'address': str( address ), 'rssi': rssi, 'icon': icon, 'paired': int( paired ), 'connected': int( connected ) } )
+            devices.append({'alias': str(alias), 'address': str(address), 'rssi': rssi, 'icon': icon, 'paired': int(paired), 'connected': int(connected)})
 
     return devices
 
 
-
 def connected_devices():
-    """Fetches the dbus bluetooth database and returns a list of devices that have a connected value of '1'
+    """
+    Fetches the dbus bluetooth database and returns a list of devices that have a connected value of '1'
 
     Returns:
         List of device objects. Each object is one device and consisting of the properties of that device.
@@ -106,14 +105,14 @@ def connected_devices():
     connected = []
     for device in devices:
         if device['connected']:
-            connected.append( device )
+            connected.append(device)
 
     return connected
 
 
-
 def paired_devices():
-    """Fetches the dbus bluetooth database and returns a list of devices that have a paired value of '1'
+    """
+    Fetches the dbus bluetooth database and returns a list of devices that have a paired value of '1'
 
     Returns:
         List of device objects. Each object is one device and consisting of the properties of that device.
@@ -137,13 +136,14 @@ def paired_devices():
     paired = []
     for device in devices:
         if device['paired']:
-            paired.append( device )
+            paired.append(device)
 
     return paired
 
 
 def all_devices():
-    """Forces a scan to populate the bluetooth dbus database, fetches the database information and returns it.
+    """
+    Forces a scan to populate the bluetooth dbus database, fetches the database information and returns it.
 
     Returns:
         List of device objects. Each object is one device and consisting of the properties of that device.

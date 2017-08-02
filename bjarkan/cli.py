@@ -11,6 +11,16 @@ from bjarkan.list_devices import connected_devices, paired_devices, all_devices
 
 
 def format_device_data(devices, format_json):
+    """
+    Formats the data that is current devices in the bluetooth database.
+
+    Args:
+        devices (list): List of devices and their attributes within dictionaries
+        format_json (bool): whether to format for computer consumption ``True`` or humans ``False``
+
+    Returns:
+        data (list): structured data returned on stdout
+    """
     if format_json:
         data = []
         for device in devices:
@@ -39,6 +49,16 @@ def format_device_data(devices, format_json):
 
 
 def format_results(results, format_json):
+    """
+    Formats the return values and codes from commands.
+
+    Args:
+        results (dict): result strind and code from the command that was ran
+        format_json (bool): whether to format for computer consumption ``True`` or humans ``False``
+
+    Returns:
+        results (dict, json): structured data of the return codes and messages
+    """
     if format_json:
         print(json.dumps({'result': results['result'], 'code': results['code']}))
     else:
@@ -46,34 +66,97 @@ def format_results(results, format_json):
 
 
 def pair(args):
+    """
+    Pair to the specified device
+
+    Args:
+        args (dict): args parsed on the command line
+
+    Returns:
+        results (dict, json): return message and code of the operation
+    """
     device_manager = DeviceManager(args.device)
     return format_results(device_manager.pair_device(), args.json)
 
 
 def unpair(args):
+    """
+    Unpair from the specified device
+
+    Args:
+        args (dict): args parsed on the command line
+
+    Returns:
+        results (dict, json): return message and code of the operation
+    """
     device_manager = DeviceManager(args.device)
     return format_results(device_manager.unpair_device(), args.json)
 
 
 def connect(args):
+    """
+    Connect to the specified device after pairing has already been authenticated
+
+    Args:
+        args (dict): args parsed on the command line
+
+    Returns:
+        results (dict, json): return message and code of the operation
+    """
     device_manager = DeviceManager(args.device)
     return format_results(device_manager.connect_device(), args.json)
 
 
 def disconnect(args):
+    """
+    Disconnect from the specified device
+
+    Args:
+        args (dict): args parsed on the command line
+
+    Returns:
+        results (dict, json): return message and code of the operation
+    """
     device_manager = DeviceManager(args.device)
     return format_results(device_manager.disconnect_device(), args.json)
 
 
 def connected(args):
+    """
+    List the currently connected devices
+
+    Args:
+        args (dict): args parsed on the command line
+
+    Returns:
+        results (dict, json): return formatted data listing the currently connected devices
+    """
     return format_device_data(connected_devices(), args.json)
 
 
 def paired(args):
+    """
+    List the currently paired devices
+
+    Args:
+        args (dict): args parsed on the command line
+
+    Returns:
+        results (dict, json): return formatted data listing the currently paired devices
+    """
     return format_device_data(paired_devices(), args.json)
 
 
 def scan(args):
+    """
+    List the devices shown in the scan
+
+    Args:
+        args (dict): args parsed on the command line
+
+    Returns:
+        results (dict, json): return formatted data listing the devices found during the scan
+    """
     return format_device_data(all_devices(), args.json)
 
 

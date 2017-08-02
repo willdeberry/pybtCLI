@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bjarkan.device_manager module &mdash; bjarkan 1.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="bjarkan 1.2.0 documentation" href="index.html"/>
+        <link rel="next" title="bjarkan.list_devices module" href="bjarkan.list_devices.html"/>
+        <link rel="prev" title="bjarkan.cli module" href="bjarkan.cli.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="bjarkan.html" class="icon icon-home"> bjarkan
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.agent.html">bjarkan.agent module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.cli.html">bjarkan.cli module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">bjarkan.device_manager module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.list_devices.html">bjarkan.list_devices module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="bjarkan.html">bjarkan</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="bjarkan.html">Docs</a> &raquo;</li>
+        
+      <li>bjarkan.device_manager module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/bjarkan.device_manager.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-bjarkan.device_manager">
+<span id="bjarkan-device-manager-module"></span><h1>bjarkan.device_manager module<a class="headerlink" href="#module-bjarkan.device_manager" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bjarkan.device_manager.DeviceManager">
+<em class="property">class </em><code class="descclassname">bjarkan.device_manager.</code><code class="descname">DeviceManager</code><span class="sig-paren">(</span><em>address=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.find_device">
+<code class="descname">find_device</code><span class="sig-paren">(</span><em>adapter_pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to find the device address in the list of known devices in the dbus bluetooth database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pattern</strong> – the name of the bluetooth adapter</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Object that represents the bluetooth adapter installed in the host.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.find_adapter">
+<code class="descname">find_adapter</code><span class="sig-paren">(</span><em>pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_adapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the adapter for this specific host.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pattern</strong> – the name of the bluetooth adapter</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Object that represents the bluetooth adapter installed in the host.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.find_adapter_in_objects">
+<code class="descname">find_adapter_in_objects</code><span class="sig-paren">(</span><em>objects</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_adapter_in_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the heavy lifting of sifting through the dbus bluetooth database to find the adapter
+that is installed and used on the host system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>objects</strong> – the current contents of the dbus bluetooth</li>
+<li><strong>pattern</strong> – the name of the bluetooth adapter</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Object that represents the bluetooth adapter installed in the host.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">AdapterNotFound</span></code> – bluetooth adapter was not found in the dbus bluetooth database.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.find_device_in_objects">
+<code class="descname">find_device_in_objects</code><span class="sig-paren">(</span><em>objects</em>, <em>adapter_pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_device_in_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the heavy lifting of sifting through the dbus bluetooth database to match
+upon the device_address provided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>objects</strong> – the current contents of the dbus bluetooth</li>
+<li><strong>pattern</strong> – the name of the bluetooth adapter</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Object that represents the bluetooth device.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">DeviceNotFound</span></code> – bluetooth device was not found in the dbus bluetooth database.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.pair_reply">
+<code class="descname">pair_reply</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.pair_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.pair_error">
+<code class="descname">pair_error</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.pair_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.pair_device">
+<code class="descname">pair_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.pair_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the act of attempting to pair to the bluetooth device specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of pairing attempt</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.unpair_device">
+<code class="descname">unpair_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.unpair_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the act of attempting to unpair to the bluetooth device specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of unpairing attempt</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.disconnect_device">
+<code class="descname">disconnect_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.disconnect_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the act of attempting to discconnect to the bluetooth device specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of disconnect attempt</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.device_manager.DeviceManager.connect_device">
+<code class="descname">connect_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.connect_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does the act of attempting to connect to the bluetooth device specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of connection attempt</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bjarkan.list_devices.html" class="btn btn-neutral float-right" title="bjarkan.list_devices module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bjarkan.cli.html" class="btn btn-neutral" title="bjarkan.cli module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Copyright 2017 GetWellNetwork, Inc., BSD copyright and disclaimer apply.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

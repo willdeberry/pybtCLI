@@ -1,0 +1,20 @@
+bjarkan package
+===============
+
+Submodules
+----------
+
+.. toctree::
+
+   bjarkan.agent
+   bjarkan.cli
+   bjarkan.device_manager
+   bjarkan.list_devices
+
+Module contents
+---------------
+
+.. automodule:: bjarkan
+    :members:
+    :undoc-members:
+    :show-inheritance:
