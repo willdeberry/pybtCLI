@@ -1,0 +1,6 @@
+tar-ignore
+tar-ignore = ".cache"
+tar-ignore = "stage"
+tar-ignore = "parts"
+tar-ignore = "prime"
+tar-ignore = "docs"

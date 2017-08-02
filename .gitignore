@@ -4,6 +4,7 @@
 *.rst
 *.bz2
 .snapcraft
+.pybuild
 bjarkan.egg-info
 build
 dist

@@ -8,6 +8,9 @@ build/venv/bin/activate:
 rst: build/venv/bin/activate
 	sh -c '. $(CURDIR)/build/venv/bin/activate; sphinx-apidoc -o $(CURDIR)/sphinx -e $(CURDIR)/bjarkan'
 
+deb:
+	gbp buildpackage -uc -us --lintian-opts --verbose --git-ignore-new
+
 docs: build/venv/bin/activate rst
 	mkdir -p docs
 	sh -c '. $(CURDIR)/build/venv/bin/activate; make -C sphinx html'

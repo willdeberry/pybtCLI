@@ -41,16 +41,25 @@ sudo snap install bjarkan
 
 ### Pip
 ```
-sudo apt-get install -y python3-gi python3-dbus python3 python3-pip
+sudo apt-get install -y python3-gi python3-dbus python3 python3-pip gir1.2-gtk-3.0
 sudo pip3 install bjarkan
 ```
 
-### Manual
+### Manual Python
 ```
-sudo apt-get install -y python3-gi python3-dbus python3 python3-pip
+sudo apt-get install -y python3-gi python3-dbus python3 python3-pip gir1.2-gtk-3.0
 git clone https://github.com/willdeberry/bjarkan.git
 cd bjarkan
 python3 setup.py install
+```
+
+### Manual Debian Package
+```
+sudo apt-get install -y python3-gi python3-dbus python3 python3-pytest git-buildpackage gir1.2-gtk-3.0
+git clone https://github.com/willdeberry/bjarkan.git
+cd bjarkan
+make deb
+sudo dpkg -i ../$( awk '{ print $1 }' debian/files )
 ```
 
 ## Usage

@@ -1,0 +1,7 @@
+bjarkan
+bjarkan.substvars
+bjarkan.prerm.debhelper
+bjarkan.postinst.debhelper
+bjarkan.debhelper.log
+.debhelper
+files
