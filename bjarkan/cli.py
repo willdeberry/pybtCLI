@@ -161,7 +161,7 @@ def scan(args):
 
 
 def main():
-    DBusGMainLoop( set_as_default = True )
+    DBusGMainLoop(set_as_default = True)
 
     parser = ArgumentParser(description = 'Connect to specifed BT device')
     parser.add_argument('-j', '--json', action = 'store_true', help = 'Change output format to json instead of plain text')
@@ -188,7 +188,7 @@ def main():
     paired_parser.set_defaults(func = paired)
 
     connected_parser = subparsers.add_parser('connected-devices', help = 'Show all connected devices')
-    connected_parser.set_defaults( func = connected )
+    connected_parser.set_defaults(func = connected)
 
     list_parser = subparsers.add_parser('scan', help = 'Show all currently known devices')
     list_parser.set_defaults(func = scan)
