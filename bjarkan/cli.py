@@ -1,68 +1,47 @@
-#!/usr/bin/python3
-
 # Copyright 2016 GetWellNetwork, Inc., BSD copyright and disclaimer apply
 
 from argparse import ArgumentParser
-import json
 from dbus.mainloop.glib import DBusGMainLoop
+from gi.repository.GObject import MainLoop
 
-from bjarkan.device_manager import DeviceManager
-from bjarkan.list_devices import connected_devices, paired_devices, all_devices
+from .device_manager import DeviceManager
+from .list_devices import connected_devices, paired_devices, all_devices
 
 
-def format_device_data(devices, format_json):
+def format_device_data(devices):
     """
     Formats the data that is current devices in the bluetooth database.
 
     Args:
         devices (list): List of devices and their attributes within dictionaries
-        format_json (bool): whether to format for computer consumption ``True`` or humans ``False``
 
     Returns:
         data (list): structured data returned on stdout
     """
-    if format_json:
-        data = []
-        for device in devices:
-            device_data = {}
-            device_data['address'] = device['address']
-            device_data['rssi'] = device['rssi']
-            device_data['icon'] = device['icon']
-            device_data['paired'] = device['paired']
-            device_data['connected'] = device['connected']
-            device_data['alias'] = device['alias']
-            data.append(device_data)
-
-        print(json.dumps(data))
-    else:
-        for device in devices:
-            print(
-                '{!s} {!s} {!s} {!s} {!s} {!s}'.format(
-                    device['address'],
-                    device['rssi'],
-                    device['paired'],
-                    device['connected'],
-                    device['icon'],
-                    device['alias']
-                )
+    for device in devices:
+        print(
+            '{!s} {!s} {!s} {!s} {!s} {!s}'.format(
+                device['address'],
+                device['rssi'],
+                device['paired'],
+                device['connected'],
+                device['icon'],
+                device['alias']
             )
+        )
 
 
-def format_results(results, format_json):
+def format_results(results):
     """
     Formats the return values and codes from commands.
 
     Args:
         results (dict): result strind and code from the command that was ran
-        format_json (bool): whether to format for computer consumption ``True`` or humans ``False``
 
     Returns:
-        results (dict, json): structured data of the return codes and messages
+        results (dict): structured data of the return codes and messages
     """
-    if format_json:
-        print(json.dumps({'result': results['result'], 'code': results['code']}))
-    else:
-        print('result: {}, code: {}'.format(results['result'], results['code']))
+    print('result: {}, code: {}'.format(results['result'], results['code']))
 
 
 def pair(args):
@@ -73,10 +52,35 @@ def pair(args):
         args (dict): args parsed on the command line
 
     Returns:
-        results (dict, json): return message and code of the operation
+        results (dict): return message and code of the operation
     """
+    def success():
+        try:
+            device_manager.trust_device()
+            device_manager.connect_device()
+            format_results({'result': 'Success', 'code': ''})
+        finally:
+            mainloop.quit()
+
+    def error(err):
+        try:
+            if err == 'org.freedesktop.DBus.Error.NoReply' and self.dev:
+                code = 'Timeout'
+                device_manager.cancel_device()
+            if err in ('org.bluez.Error.AuthenticationCanceled', 'org.bluez.Error.AuthenticationFailed',
+                    'org.bluez.Error.AuthenticationRejected', 'org.bluez.Error.AuthenticationTimeout'):
+                code = 'AuthenticationError'
+            else:
+                code = 'CreatingDeviceFailed'
+
+            format_results({'result': 'Error', 'code': code})
+        finally:
+            mainloop.quit()
+
+    mainloop = MainLoop()
     device_manager = DeviceManager(args.device)
-    return format_results(device_manager.pair_device(), args.json)
+    device_manager.pair_device(success, error)
+    mainloop.run()
 
 
 def unpair(args):
@@ -87,10 +91,10 @@ def unpair(args):
         args (dict): args parsed on the command line
 
     Returns:
-        results (dict, json): return message and code of the operation
+        results (dict): return message and code of the operation
     """
     device_manager = DeviceManager(args.device)
-    return format_results(device_manager.unpair_device(), args.json)
+    return format_results(device_manager.unpair_device())
 
 
 def connect(args):
@@ -101,10 +105,10 @@ def connect(args):
         args (dict): args parsed on the command line
 
     Returns:
-        results (dict, json): return message and code of the operation
+        results (dict): return message and code of the operation
     """
     device_manager = DeviceManager(args.device)
-    return format_results(device_manager.connect_device(), args.json)
+    return format_results(device_manager.connect_device())
 
 
 def disconnect(args):
@@ -115,10 +119,10 @@ def disconnect(args):
         args (dict): args parsed on the command line
 
     Returns:
-        results (dict, json): return message and code of the operation
+        results (dict): return message and code of the operation
     """
     device_manager = DeviceManager(args.device)
-    return format_results(device_manager.disconnect_device(), args.json)
+    return format_results(device_manager.disconnect_device())
 
 
 def connected(args):
@@ -129,9 +133,9 @@ def connected(args):
         args (dict): args parsed on the command line
 
     Returns:
-        results (dict, json): return formatted data listing the currently connected devices
+        results (dict): return formatted data listing the currently connected devices
     """
-    return format_device_data(connected_devices(), args.json)
+    return format_device_data(connected_devices())
 
 
 def paired(args):
@@ -142,9 +146,9 @@ def paired(args):
         args (dict): args parsed on the command line
 
     Returns:
-        results (dict, json): return formatted data listing the currently paired devices
+        results (dict): return formatted data listing the currently paired devices
     """
-    return format_device_data(paired_devices(), args.json)
+    return format_device_data(paired_devices())
 
 
 def scan(args):
@@ -155,16 +159,15 @@ def scan(args):
         args (dict): args parsed on the command line
 
     Returns:
-        results (dict, json): return formatted data listing the devices found during the scan
+        results (dict): return formatted data listing the devices found during the scan
     """
-    return format_device_data(all_devices(), args.json)
+    return format_device_data(all_devices())
 
 
 def main():
     DBusGMainLoop(set_as_default = True)
 
     parser = ArgumentParser(description = 'Connect to specifed BT device')
-    parser.add_argument('-j', '--json', action = 'store_true', help = 'Change output format to json instead of plain text')
     subparsers = parser.add_subparsers(metavar = 'COMMAND')
     subparsers.required = True
 

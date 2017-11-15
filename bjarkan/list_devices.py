@@ -3,11 +3,11 @@
 import dbus
 from gi.repository import GObject
 
-from bjarkan import ADAPTER_INTERFACE, DEVICE_INTERFACE, SERVICE_NAME
-from bjarkan.device_manager import DeviceManager
+from . import ADAPTER_INTERFACE, DEVICE_INTERFACE, SERVICE_NAME
+from .device_manager import DeviceManager
 
 
-def quit( mainloop ):
+def quit(mainloop):
     mainloop.quit()
 
 
@@ -19,7 +19,6 @@ def scan_devices( duration = 10 ):
     Args:
         duration (int): the amount of time that the scan should run for in seconds.
     """
-    bus = dbus.SystemBus()
     adapter = DeviceManager().find_adapter()
 
     adapter.StartDiscovery()
@@ -64,8 +63,8 @@ def gather_device_info():
         for dev_path in device_list:
             dev = objects[dev_path]
             properties = dev[DEVICE_INTERFACE]
-            rssi = None
-            icon = None
+            rssi = -999
+            icon = 'None'
             if 'RSSI' in properties:
                 rssi = int(properties['RSSI'])
             if 'Icon' in properties:
@@ -74,7 +73,7 @@ def gather_device_info():
             address = properties['Address']
             paired = properties['Paired']
             connected = properties['Connected']
-            devices.append({'alias': str(alias), 'address': str(address), 'rssi': rssi, 'icon': icon, 'paired': int(paired), 'connected': int(connected)})
+            devices.append({'alias': str(alias), 'address': str(address), 'rssi': rssi, 'icon': icon, 'paired': paired, 'connected': connected})
 
     return devices
 
@@ -96,8 +95,8 @@ def connected_devices():
                     'address': '00:00:00:00:00:00',
                     'rssi': '-54',
                     'icon': 'input-keyboard',
-                    'paired': 1,
-                    'connected': 1
+                    'paired': True,
+                    'connected': True
                 }
             ]
     """
@@ -127,8 +126,8 @@ def paired_devices():
                     'address': '00:00:00:00:00:00',
                     'rssi': '-54',
                     'icon': 'input-keyboard',
-                    'paired': 1,
-                    'connected': 0
+                    'paired': True,
+                    'connected': False
                 }
             ]
     """
@@ -158,8 +157,8 @@ def all_devices():
                     'address': '00:00:00:00:00:00',
                     'rssi': '-54',
                     'icon': 'input-keyboard',
-                    'paired': 1,
-                    'connected': 0
+                    'paired': True,
+                    'connected': False
                 }
             ]
     """

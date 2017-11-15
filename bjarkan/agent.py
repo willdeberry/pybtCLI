@@ -28,10 +28,24 @@ class Agent(dbus.service.Object):
 
     @dbus.service.method(AGENT_INTERFACE, in_signature = 'os')
     def DisplayPinCode(self, device, pincode):
-        print('DisplayPinCode ({}, {})'.format(device, pincode))
+        print('DisplayPinCode: {}'.format(pincode))
+        self.BroadcastPinCode(pincode)
+
+    @dbus.service.method(AGENT_INTERFACE, in_signature = 'ouq')
+    def DisplayPasskey(self, device, passkey, entered):
+        print('DisplayPasskey: {}'.format(passkey))
+        self.BroadcastPinCode(str(passkey))
 
     @dbus.service.method(AGENT_INTERFACE, in_signature = 'ou')
     def RequestConfirmation(self, device, passkey):
-        print('RequestConfirmation ({}, {})'.format(device, passkey))
+        print('RequestConfirmation: {}'.format(passkey))
+        self.BroadcastPasskey(passkey)
 
+    @dbus.service.signal(AGENT_INTERFACE, signature = 's')
+    def BroadcastPinCode(self, pincode):
+        pass
+
+    @dbus.service.signal(AGENT_INTERFACE, signature = 's')
+    def BroadcastPasskey(self, passkey):
+        pass
 

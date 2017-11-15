@@ -21,7 +21,8 @@ setup(
     packages = find_packages(exclude = ['contrib', 'sphinx', 'docs', 'tests']),
     entry_points = {
         'console_scripts': [
-            'bjarkan = bjarkan.cli:main'
+            'bjarkan = bjarkan.cli:main',
+            'bjarkan-service = bjarkan.main:main'
         ],
     },
     classifiers = [

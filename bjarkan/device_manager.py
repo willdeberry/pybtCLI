@@ -1,26 +1,21 @@
 # Copyright 2016 GetWellNetwork, Inc., BSD copyright and disclaimer apply
 
 import dbus
-from gi.repository.GObject import MainLoop
 
-from bjarkan import ADAPTER_INTERFACE, SERVICE_NAME, DEVICE_INTERFACE, DeviceNotFound, AdapterNotFound
-from bjarkan.agent import Agent
+from . import ADAPTER_INTERFACE, SERVICE_NAME, DEVICE_INTERFACE, DeviceNotFound, AdapterNotFound
+from .agent import Agent
+from .logger import logger
 
 
 class DeviceManager:
-    def __init__(self, address = None):
-        self.mainloop = MainLoop()
+    def __init__(self):
         self.bus = dbus.SystemBus()
         self.manager = dbus.Interface(self.bus.get_object( SERVICE_NAME, '/' ), 'org.freedesktop.DBus.ObjectManager' )
 
-        self.result = None
-        self.code = None
-        self.address = address
+        self.result = ''
+        self.code = ''
 
-        if self.address:
-            self.dev = self.find_device(self.address)
-
-    def find_device( self, adapter_pattern = None ):
+    def find_device(self, address, adapter_pattern = None):
         """
         Attempt to find the device address in the list of known devices in the dbus bluetooth database.
 
@@ -30,10 +25,11 @@ class DeviceManager:
         Returns:
             Object that represents the bluetooth adapter installed in the host.
         """
-        return self.find_device_in_objects(self.manager.GetManagedObjects())
+        return self.find_device_in_objects(address, self.manager.GetManagedObjects())
 
     def find_adapter(self, pattern = None):
-        """Find the adapter for this specific host.
+        """
+        Find the adapter for this specific host.
 
         Args:
             pattern: the name of the bluetooth adapter
@@ -73,7 +69,7 @@ class DeviceManager:
 
         raise AdapterNotFound('Bluetooth adapter not found: {}'.format(pattern))
 
-    def find_device_in_objects(self, objects, adapter_pattern = None):
+    def find_device_in_objects(self, address, objects, adapter_pattern = None):
         """
         Does the heavy lifting of sifting through the dbus bluetooth database to match
         upon the device_address provided.
@@ -96,67 +92,80 @@ class DeviceManager:
             device = ifaces.get(DEVICE_INTERFACE)
             if not device:
                 continue
-            if device['Address'] == self.address and path.startswith(path_prefix):
+            if device['Address'] == address and path.startswith(path_prefix):
                 obj = self.bus.get_object(SERVICE_NAME, path)
                 return dbus.Interface(obj, DEVICE_INTERFACE)
 
         raise DeviceNotFound('Bluetooth device not found: {} {}'.format(self.address, adapter_pattern))
 
-    def pair_reply(self):
-        self.result = 'Success'
-        dev_path = self.dev.object_path
+    def cancel_device(self, address):
+        """
+        Cancels the pairing attempt
+
+        Args:
+            address (str): address of the device
+        """
+        device = self.find_device(address)
+
+        device.CancelPairing()
+
+    def trust_device(self, address):
+        """
+        Trusts a device
+
+        Args:
+            address (str): address of the device
+        """
+        device = self.find_device(address)
+        dev_path = device.object_path
         props = dbus.Interface(self.bus.get_object('org.bluez', dev_path), 'org.freedesktop.DBus.Properties')
 
         props.Set(DEVICE_INTERFACE, 'Trusted', True)
-        self.dev.Connect()
-        self.mainloop.quit()
-        self.results.update({'result': self.result, 'code': self.code})
 
-    def pair_error(self, error):
-        self.result = 'Error'
-        err = error.get_dbus_name()
-        if err == 'org.freedesktop.DBus.Error.NoReply' and self.dev:
-            self.code = 'Timeout'
-            self.dev.CancelPairing()
-        if err in ('org.bluez.Error.AuthenticationCanceled', 'org.bluez.Error.AuthenticationFailed',
-                'org.bluez.Error.AuthenticationRejected', 'org.bluez.Error.AuthenticationTimeout'):
-            self.code = 'AuthenticationError'
-        else:
-            self.code = 'CreatingDeviceFailed'
-
-        self.mainloop.quit()
-        self.results.update({'result': self.result, 'code': self.code})
-
-    def pair_device(self):
+    def pair_device(self, address, success, error):
         """
         Does the act of attempting to pair to the bluetooth device specified.
+
+        Args:
+            address (str): address of the device
 
         Returns:
             results (dict): Dictionary consisting of the result of pairing attempt
         """
+        device = self.find_device(address)
         self.results = {}
-        capability = 'KeyboardDisplay'
         path = '/test/agent'
-        agent = Agent(self.bus, path)
         obj = self.bus.get_object('org.bluez', '/org/bluez')
         manager = dbus.Interface( obj, 'org.bluez.AgentManager1')
 
-        manager.RegisterAgent(path, capability)
-        agent.set_exit_on_release(False)
-        self.dev.Pair(reply_handler = self.pair_reply, error_handler = self.pair_error, timeout = 60000)
-        self.mainloop.run()
+        try:
+            manager.UnregisterAgent(path)
+        except Exception:
+            logger.info('did not find an agent to unregister')
+            pass
+
+        try:
+            self.agent = Agent(self.bus, path)
+        except Exception:
+            pass
+
+        manager.RegisterAgent(path, 'KeyboardDisplay')
+        device.Pair(reply_handler = success, error_handler = error, timeout = 60000)
         return self.results
 
-    def unpair_device(self):
+    def unpair_device(self, address):
         """
         Does the act of attempting to unpair to the bluetooth device specified.
+
+        Args:
+            address (str): address of the device
 
         Returns:
             results (dict): Dictionary consisting of the result of unpairing attempt
         """
         managed_objects = self.manager.GetManagedObjects()
         adapter = self.find_adapter_in_objects(managed_objects)
-        dev = self.find_device_in_objects(managed_objects)
+        dev = self.find_device_in_objects(address, managed_objects)
         dev_path = dev.object_path
         try:
             adapter.RemoveDevice(dev_path)
@@ -170,15 +179,20 @@ class DeviceManager:
         finally:
             return {'result': self.result, 'code': self.code}
 
-    def disconnect_device(self):
+    def disconnect_device(self, address):
         """
         Does the act of attempting to discconnect to the bluetooth device specified.
+
+        Args:
+            address (str): address of the device
 
         Returns:
             results (dict): Dictionary consisting of the result of disconnect attempt
         """
+        device = self.find_device(address)
+
         try:
-            self.dev.Disconnect()
+            device.Disconnect()
             self.result = 'Success'
         except dbus.exceptions.DBusException as e:
             self.result = 'Error'
@@ -189,15 +203,20 @@ class DeviceManager:
         finally:
             return {'result': self.result, 'code': self.code}
 
-    def connect_device(self):
+    def connect_device(self, address):
         """
         Does the act of attempting to connect to the bluetooth device specified.
+
+        Args:
+            address (str): address of the device
 
         Returns:
             results (dict): Dictionary consisting of the result of connection attempt
         """
+        device = self.find_device(address)
+
         try:
-            self.dev.Connect()
+            device.Connect()
             self.result = 'Success'
         except dbus.exceptions.DBusException as e:
             self.result = 'Error'

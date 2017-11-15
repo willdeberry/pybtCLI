@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+adduser --system --no-create-home --home /nonexistent --shell /usr/sbin/nologin bjarkan
+
+#DEBHELPER#

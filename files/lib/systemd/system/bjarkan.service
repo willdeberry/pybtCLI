@@ -1,0 +1,14 @@
+[Unit]
+Description=Bluetooth command line utility
+Wants=bluetooth.service
+After=bluetooth.service
+
+[Service]
+Type=dbus
+BusName=com.getwellnetwork.plc.bjarkan1
+ExecStart=/usr/bin/bjarkan-service
+EnvironmentFile=-/etc/default/gwn
+EnvironmentFile=-/etc/default/bjarkan
+
+[Install]
+WantedBy=multi-user.target

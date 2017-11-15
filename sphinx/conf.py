@@ -59,6 +59,12 @@ autodoc_mock_imports = [
     'dbus.service',
     'gi.repository',
     'gi.repository.GObject',
+    'gwn.helpers',
+    'gwn.helpers.dbus',
+    'gwn.helpers.dbus.dbuscast',
+    'gwn.helpers.logger',
+    'gwn.helpers.logger.logger',
+    'systemd.journal.JournalHandler'
 ]
 
 autosummary_generate = True

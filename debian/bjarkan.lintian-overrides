@@ -1,1 +1,5 @@
 bjarkan binary: binary-without-manpage usr/bin/bjarkan
+bjarkan binary: binary-without-manpage usr/bin/bjarkan-service
+bjarkan binary: dbus-policy-without-send-destination *
+bjarkan binary: dbus-policy-at-console etc/dbus-1/system.d/bluetooth.conf <policy at_console="true"><allow send_destination="org.bluez"/>
+bjarkan binary: dbus-policy-excessively-broad etc/dbus-1/system.d/bluetooth.conf <policy user="bjarkan"><allow send_interface="org.freedesktop.DBus.Properties"/>
