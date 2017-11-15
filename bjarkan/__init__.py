@@ -13,7 +13,7 @@ DBus Service
 
 
 __title__ = 'bjarkan'
-__version__ = '1.2.0'
+__version__ = '1.3.0'
 __author__ = 'GetWellNetwork'
 __author_email__ = 'willdeberry@gmail.com'
 __copyright__ = 'Copyright 2017 GetWellNetwork, Inc., BSD copyright and disclaimer apply'
