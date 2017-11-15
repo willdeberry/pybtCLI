@@ -19,7 +19,7 @@ installnow: deb
 
 revbump:
 	set -e ;\
-		VERSION=$$( git tag | awk -F / '$$1=="debian"{print$$2}' | sort --version-sort | tail -1 | awk 'BEGIN{FS=OFS="."}{print $$1,$$2,$$3+1}' ) ;\
+		VERSION=$$( git tag | awk -F 'v' '{print$$2}' | sort --version-sort | tail -1 | awk 'BEGIN{FS=OFS="."}{print $$1,$$2,$$3+1}' ) ;\
 		gbp dch -N $$VERSION ;\
 		git add debian/changelog ;\
 		git diff --cached ;\
@@ -27,7 +27,7 @@ revbump:
 
 minorbump:
 	set -e ;\
-		VERSION=$$( git tag | awk -F / '$$1=="debian"{print$$2}' | sort --version-sort | tail -1 | awk 'BEGIN{FS=OFS="."}{print $$1,$$2+1,0}' ) ;\
+		VERSION=$$( git tag | awk -F 'v' '{print$$2}' | sort --version-sort | tail -1 | awk 'BEGIN{FS=OFS="."}{print $$1,$$2+1,0}' ) ;\
 		gbp dch -N $$VERSION ;\
 		git add debian/changelog ;\
 		git diff --cached ;\
@@ -35,7 +35,7 @@ minorbump:
 
 majorbump:
 	set -e ;\
-		VERSION=$$( git tag | awk -F / '$$1=="debian"{print$$2}' | sort --version-sort | tail -1 | awk 'BEGIN{FS=OFS="."}{print $$1+1,0,0}' ) ;\
+		VERSION=$$( git tag | awk -F 'v' '{print$$2}' | sort --version-sort | tail -1 | awk 'BEGIN{FS=OFS="."}{print $$1+1,0,0}' ) ;\
 		gbp dch -N $$VERSION ;\
 		git add debian/changelog ;\
 		git diff --cached ;\
