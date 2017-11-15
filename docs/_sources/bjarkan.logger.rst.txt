@@ -1,0 +1,7 @@
+bjarkan\.logger module
+======================
+
+.. automodule:: bjarkan.logger
+    :members:
+    :undoc-members:
+    :show-inheritance:

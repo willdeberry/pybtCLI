@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bjarkan.device_manager module &mdash; bjarkan 1.2.0 documentation</title>
+  <title>bjarkan.device_manager module &mdash; bjarkan 1.3.0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="bjarkan 1.2.0 documentation" href="index.html"/>
+    <link rel="top" title="bjarkan 1.3.0 documentation" href="index.html"/>
         <link rel="next" title="bjarkan.list_devices module" href="bjarkan.list_devices.html"/>
         <link rel="prev" title="bjarkan.cli module" href="bjarkan.cli.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.2.0
+                1.3.0
               </div>
             
           
@@ -95,6 +95,10 @@
 <li class="toctree-l1"><a class="reference internal" href="bjarkan.cli.html">bjarkan.cli module</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">bjarkan.device_manager module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bjarkan.list_devices.html">bjarkan.list_devices module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.logger.html">bjarkan.logger module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.main.html">bjarkan.main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.service.html">bjarkan.service module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.support_service.html">bjarkan.support_service module</a></li>
 </ul>
 
             
@@ -162,11 +166,11 @@
 <span id="bjarkan-device-manager-module"></span><h1>bjarkan.device_manager module<a class="headerlink" href="#module-bjarkan.device_manager" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="bjarkan.device_manager.DeviceManager">
-<em class="property">class </em><code class="descclassname">bjarkan.device_manager.</code><code class="descname">DeviceManager</code><span class="sig-paren">(</span><em>address=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">bjarkan.device_manager.</code><code class="descname">DeviceManager</code><a class="headerlink" href="#bjarkan.device_manager.DeviceManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="bjarkan.device_manager.DeviceManager.find_device">
-<code class="descname">find_device</code><span class="sig-paren">(</span><em>adapter_pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_device" title="Permalink to this definition">¶</a></dt>
+<code class="descname">find_device</code><span class="sig-paren">(</span><em>address</em>, <em>adapter_pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attempt to find the device address in the list of known devices in the dbus bluetooth database.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -223,7 +227,7 @@ that is installed and used on the host system.</p>
 
 <dl class="method">
 <dt id="bjarkan.device_manager.DeviceManager.find_device_in_objects">
-<code class="descname">find_device_in_objects</code><span class="sig-paren">(</span><em>objects</em>, <em>adapter_pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_device_in_objects" title="Permalink to this definition">¶</a></dt>
+<code class="descname">find_device_in_objects</code><span class="sig-paren">(</span><em>address</em>, <em>objects</em>, <em>adapter_pattern=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.find_device_in_objects" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does the heavy lifting of sifting through the dbus bluetooth database to match
 upon the device_address provided.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -247,24 +251,44 @@ upon the device_address provided.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="bjarkan.device_manager.DeviceManager.pair_reply">
-<code class="descname">pair_reply</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.pair_reply" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="bjarkan.device_manager.DeviceManager.cancel_device">
+<code class="descname">cancel_device</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.cancel_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cancels the pairing attempt</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>str</em>) – address of the device</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
-<dt id="bjarkan.device_manager.DeviceManager.pair_error">
-<code class="descname">pair_error</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.pair_error" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="bjarkan.device_manager.DeviceManager.trust_device">
+<code class="descname">trust_device</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.trust_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trusts a device</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>str</em>) – address of the device</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="bjarkan.device_manager.DeviceManager.pair_device">
-<code class="descname">pair_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.pair_device" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pair_device</code><span class="sig-paren">(</span><em>address</em>, <em>success</em>, <em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.pair_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does the act of attempting to pair to the bluetooth device specified.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of pairing attempt</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>str</em>) – address of the device</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of pairing attempt</td>
 </tr>
 </tbody>
 </table>
@@ -272,13 +296,15 @@ upon the device_address provided.</p>
 
 <dl class="method">
 <dt id="bjarkan.device_manager.DeviceManager.unpair_device">
-<code class="descname">unpair_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.unpair_device" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unpair_device</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.unpair_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does the act of attempting to unpair to the bluetooth device specified.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of unpairing attempt</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>str</em>) – address of the device</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of unpairing attempt</td>
 </tr>
 </tbody>
 </table>
@@ -286,13 +312,15 @@ upon the device_address provided.</p>
 
 <dl class="method">
 <dt id="bjarkan.device_manager.DeviceManager.disconnect_device">
-<code class="descname">disconnect_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.disconnect_device" title="Permalink to this definition">¶</a></dt>
+<code class="descname">disconnect_device</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.disconnect_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does the act of attempting to discconnect to the bluetooth device specified.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of disconnect attempt</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>str</em>) – address of the device</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of disconnect attempt</td>
 </tr>
 </tbody>
 </table>
@@ -300,13 +328,15 @@ upon the device_address provided.</p>
 
 <dl class="method">
 <dt id="bjarkan.device_manager.DeviceManager.connect_device">
-<code class="descname">connect_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.connect_device" title="Permalink to this definition">¶</a></dt>
+<code class="descname">connect_device</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.device_manager.DeviceManager.connect_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does the act of attempting to connect to the bluetooth device specified.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of connection attempt</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>address</strong> (<em>str</em>) – address of the device</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – Dictionary consisting of the result of connection attempt</td>
 </tr>
 </tbody>
 </table>
@@ -360,7 +390,7 @@ upon the device_address provided.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2.0',
+            VERSION:'1.3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

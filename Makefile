@@ -53,7 +53,7 @@ docs: build/venv/bin/activate rst
 	mkdir -p build docs
 	sh -c '. $(CURDIR)/build/venv/bin/activate; make -C sphinx html'
 	cp -r build/html/* docs/.
-	ln -s bjarkan.html docs/index.html
+	ln -sf bjarkan.html docs/index.html
 
 clean:
 	sh -c '. $(CURDIR)/build/venv/bin/activate; make -C sphinx clean'

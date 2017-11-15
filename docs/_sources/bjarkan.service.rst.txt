@@ -1,0 +1,7 @@
+bjarkan\.service module
+=======================
+
+.. automodule:: bjarkan.service
+    :members:
+    :undoc-members:
+    :show-inheritance:

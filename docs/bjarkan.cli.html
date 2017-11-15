@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bjarkan.cli module &mdash; bjarkan 1.2.0 documentation</title>
+  <title>bjarkan.cli module &mdash; bjarkan 1.3.0 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="bjarkan 1.2.0 documentation" href="index.html"/>
+    <link rel="top" title="bjarkan 1.3.0 documentation" href="index.html"/>
         <link rel="next" title="bjarkan.device_manager module" href="bjarkan.device_manager.html"/>
         <link rel="prev" title="bjarkan.agent module" href="bjarkan.agent.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.2.0
+                1.3.0
               </div>
             
           
@@ -95,6 +95,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">bjarkan.cli module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bjarkan.device_manager.html">bjarkan.device_manager module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bjarkan.list_devices.html">bjarkan.list_devices module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.logger.html">bjarkan.logger module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.main.html">bjarkan.main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.service.html">bjarkan.service module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.support_service.html">bjarkan.support_service module</a></li>
 </ul>
 
             
@@ -162,20 +166,15 @@
 <span id="bjarkan-cli-module"></span><h1>bjarkan.cli module<a class="headerlink" href="#module-bjarkan.cli" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="bjarkan.cli.format_device_data">
-<code class="descclassname">bjarkan.cli.</code><code class="descname">format_device_data</code><span class="sig-paren">(</span><em>devices</em>, <em>format_json</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.cli.format_device_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">bjarkan.cli.</code><code class="descname">format_device_data</code><span class="sig-paren">(</span><em>devices</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.cli.format_device_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formats the data that is current devices in the bluetooth database.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>devices</strong> (<em>list</em>) – List of devices and their attributes within dictionaries</li>
-<li><strong>format_json</strong> (<em>bool</em>) – whether to format for computer consumption <code class="docutils literal"><span class="pre">True</span></code> or humans <code class="docutils literal"><span class="pre">False</span></code></li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>devices</strong> (<em>list</em>) – List of devices and their attributes within dictionaries</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>data (list)</em> – structured data returned on stdout</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>data (list)</em> – structured data returned on stdout</td>
 </tr>
 </tbody>
 </table>
@@ -183,20 +182,15 @@
 
 <dl class="function">
 <dt id="bjarkan.cli.format_results">
-<code class="descclassname">bjarkan.cli.</code><code class="descname">format_results</code><span class="sig-paren">(</span><em>results</em>, <em>format_json</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.cli.format_results" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">bjarkan.cli.</code><code class="descname">format_results</code><span class="sig-paren">(</span><em>results</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.cli.format_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Formats the return values and codes from commands.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>results</strong> (<em>dict</em>) – result strind and code from the command that was ran</li>
-<li><strong>format_json</strong> (<em>bool</em>) – whether to format for computer consumption <code class="docutils literal"><span class="pre">True</span></code> or humans <code class="docutils literal"><span class="pre">False</span></code></li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>results</strong> (<em>dict</em>) – result strind and code from the command that was ran</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><em>results (dict, json)</em> – structured data of the return codes and messages</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – structured data of the return codes and messages</td>
 </tr>
 </tbody>
 </table>
@@ -212,7 +206,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>dict</em>) – args parsed on the command line</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict, json)</em> – return message and code of the operation</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – return message and code of the operation</td>
 </tr>
 </tbody>
 </table>
@@ -228,7 +222,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>dict</em>) – args parsed on the command line</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict, json)</em> – return message and code of the operation</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – return message and code of the operation</td>
 </tr>
 </tbody>
 </table>
@@ -244,7 +238,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>dict</em>) – args parsed on the command line</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict, json)</em> – return message and code of the operation</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – return message and code of the operation</td>
 </tr>
 </tbody>
 </table>
@@ -260,7 +254,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>dict</em>) – args parsed on the command line</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict, json)</em> – return message and code of the operation</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – return message and code of the operation</td>
 </tr>
 </tbody>
 </table>
@@ -276,7 +270,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>dict</em>) – args parsed on the command line</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict, json)</em> – return formatted data listing the currently connected devices</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – return formatted data listing the currently connected devices</td>
 </tr>
 </tbody>
 </table>
@@ -292,7 +286,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>dict</em>) – args parsed on the command line</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict, json)</em> – return formatted data listing the currently paired devices</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – return formatted data listing the currently paired devices</td>
 </tr>
 </tbody>
 </table>
@@ -308,7 +302,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>dict</em>) – args parsed on the command line</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict, json)</em> – return formatted data listing the devices found during the scan</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><em>results (dict)</em> – return formatted data listing the devices found during the scan</td>
 </tr>
 </tbody>
 </table>
@@ -365,7 +359,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2.0',
+            VERSION:'1.3.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

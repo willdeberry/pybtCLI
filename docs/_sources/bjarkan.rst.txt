@@ -10,6 +10,10 @@ Submodules
    bjarkan.cli
    bjarkan.device_manager
    bjarkan.list_devices
+   bjarkan.logger
+   bjarkan.main
+   bjarkan.service
+   bjarkan.support_service
 
 Module contents
 ---------------

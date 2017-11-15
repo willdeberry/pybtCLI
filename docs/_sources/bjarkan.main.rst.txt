@@ -1,0 +1,7 @@
+bjarkan\.main module
+====================
+
+.. automodule:: bjarkan.main
+    :members:
+    :undoc-members:
+    :show-inheritance:

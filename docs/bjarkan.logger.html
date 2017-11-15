@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bjarkan.logger module &mdash; bjarkan 1.3.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="bjarkan 1.3.0 documentation" href="index.html"/>
+        <link rel="next" title="bjarkan.main module" href="bjarkan.main.html"/>
+        <link rel="prev" title="bjarkan.list_devices module" href="bjarkan.list_devices.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="bjarkan.html" class="icon icon-home"> bjarkan
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.agent.html">bjarkan.agent module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.cli.html">bjarkan.cli module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.device_manager.html">bjarkan.device_manager module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.list_devices.html">bjarkan.list_devices module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">bjarkan.logger module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setting-the-log-level">Setting the Log Level</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.main.html">bjarkan.main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.service.html">bjarkan.service module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bjarkan.support_service.html">bjarkan.support_service module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="bjarkan.html">bjarkan</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="bjarkan.html">Docs</a> &raquo;</li>
+        
+      <li>bjarkan.logger module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/bjarkan.logger.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-bjarkan.logger">
+<span id="bjarkan-logger-module"></span><h1>bjarkan.logger module<a class="headerlink" href="#module-bjarkan.logger" title="Permalink to this headline">¶</a></h1>
+<p>GWN logging module. Handles crafting messages to be placed into the system journal.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gwn.helpers.logger</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="c1"># ...</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="s1">&#39;starting up main loop&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that <code class="docutils literal"><span class="pre">str.format()</span></code> is handled intenrally for you:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span> <span class="s1">&#39;found </span><span class="si">{:d}</span><span class="s1"> files&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span> <span class="n">my_files</span> <span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="setting-the-log-level">
+<h2>Setting the Log Level<a class="headerlink" href="#setting-the-log-level" title="Permalink to this headline">¶</a></h2>
+<p>You can override the default log level (<code class="docutils literal"><span class="pre">INFO</span></code>) via the <code class="docutils literal"><span class="pre">GWN_LOGGER</span></code> environment variable</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">GWN_LOGGER</span><span class="o">=</span>DEBUG /usr/bin/gwn-foo
+</pre></div>
+</div>
+</div></blockquote>
+<p>It may be set to any of the following values (case insensitive):</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">critical</span></code></li>
+<li><code class="docutils literal"><span class="pre">error</span></code></li>
+<li><code class="docutils literal"><span class="pre">warning</span></code></li>
+<li><code class="docutils literal"><span class="pre">info</span></code></li>
+<li><code class="docutils literal"><span class="pre">debug</span></code></li>
+</ul>
+</div></blockquote>
+<p>Note that most of our services include at least two <code class="docutils literal"><span class="pre">EnvironmentFile=</span></code> declarations in their
+unit file designed to help you easily instrument this mechanism. For example, from the registration
+service you will see the following snippet.</p>
+<blockquote>
+<div><div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[Service]</span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">-/etc/default/gwn</span>
+<span class="na">EnvironmentFile</span><span class="o">=</span><span class="s">-/etc/default/gwn-registration</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>So you can put <code class="docutils literal"><span class="pre">GWN_LOGGER=&quot;debug&quot;</span></code> in either that <code class="docutils literal"><span class="pre">gwn</span></code> file or that <code class="docutils literal"><span class="pre">gwn-registration</span></code> file
+to turn on debug logging for all of our services or just for registration, respectively.</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s1">&#39;GWN_LOGGER=&quot;debug&quot;&#39;</span> <span class="p">|</span> sudo tee /etc/default/gwn-startup-config
+</pre></div>
+</div>
+</div></blockquote>
+<p>To determine what environment files a particular service will read, look at its unit file. The easiest
+way to do that is to use the <code class="docutils literal"><span class="pre">systemctl</span> <span class="pre">cat</span></code> command:</p>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>systemctl cat gwn-support-bridge.service
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="class">
+<dt id="bjarkan.logger.Message">
+<em class="property">class </em><code class="descclassname">bjarkan.logger.</code><code class="descname">Message</code><span class="sig-paren">(</span><em>fmt</em>, <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.logger.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="bjarkan.logger.StyleAdapter">
+<em class="property">class </em><code class="descclassname">bjarkan.logger.</code><code class="descname">StyleAdapter</code><span class="sig-paren">(</span><em>logger</em>, <em>extra=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.logger.StyleAdapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">logging.LoggerAdapter</span></code></p>
+<p>A wrapper around a <code class="docutils literal"><span class="pre">logging.Logger</span></code> object that adds <code class="docutils literal"><span class="pre">str.format()</span></code> capabilities so you can
+do things like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span> <span class="s1">&#39;found </span><span class="si">{}</span><span class="s1"> records&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span> <span class="n">my_records</span> <span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>without calling <code class="docutils literal"><span class="pre">format()</span></code> directly and without incurring the cost of calling it if the
+current log level would prevent this statement from actually being logged.</p>
+<p>When you <code class="docutils literal"><span class="pre">from</span> <span class="pre">gwn.helpers.logger</span> <span class="pre">import</span> <span class="pre">logger</span></code>, this is the object you get.</p>
+<dl class="method">
+<dt id="bjarkan.logger.StyleAdapter.log">
+<code class="descname">log</code><span class="sig-paren">(</span><em>level</em>, <em>msg</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.logger.StyleAdapter.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the <code class="docutils literal"><span class="pre">str.format()</span></code> logic. You probably shouldn’t be calling this method
+directly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.logger.StyleAdapter.setFormat">
+<code class="descname">setFormat</code><span class="sig-paren">(</span><em>fmt</em>, <em>style='{'</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.logger.StyleAdapter.setFormat" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience wrapper so you don’t have to instantiate a <code class="docutils literal"><span class="pre">logging.Formatter</span></code> object to
+override the log statement format.</p>
+<p>See the standard library docs for more details. Generally, you won’t need to call this
+method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.logger.StyleAdapter.getLevel">
+<code class="descname">getLevel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.logger.StyleAdapter.getLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience wrapper around <code class="docutils literal"><span class="pre">getEffectiveLevel()</span></code> because the integer values for the
+various logging levels are clunky and probably don’t mean anything to you.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><em>str</em> – the name of the effective log level for this logging object, in lowercase
+(<code class="docutils literal"><span class="pre">&quot;warning&quot;</span></code>, <code class="docutils literal"><span class="pre">&quot;info&quot;</span></code>, etc.)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.logger.StyleAdapter.setLevel">
+<code class="descname">setLevel</code><span class="sig-paren">(</span><em>lvl</em><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.logger.StyleAdapter.setLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>A convenience wrapper around the super method of the same name, because upper case sucks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lvl</strong> (<em>str</em>) – a standard logging level name (<code class="docutils literal"><span class="pre">&quot;warning&quot;</span></code>, <code class="docutils literal"><span class="pre">&quot;debug&quot;</span></code>, etc.); will be
+cast to upper case for you, since the super method is strict about that</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>the super method also accepts integer values from the logging.LEVEL_NAME constants,
+those will be passed through, even though the above docs state that <code class="docutils literal"><span class="pre">lvl</span></code> should
+be a <code class="docutils literal"><span class="pre">str</span></code>.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="bjarkan.logger.StyleAdapter.duplicateToStderr">
+<code class="descname">duplicateToStderr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bjarkan.logger.StyleAdapter.duplicateToStderr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a handler to the logger that also sends messages to <code class="docutils literal"><span class="pre">stderr</span></code> in addition to the
+journal. After called the first time, subsequent calls to this method will do nothing.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bjarkan.main.html" class="btn btn-neutral float-right" title="bjarkan.main module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bjarkan.list_devices.html" class="btn btn-neutral" title="bjarkan.list_devices module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright Copyright 2017 GetWellNetwork, Inc., BSD copyright and disclaimer apply.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
