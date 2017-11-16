@@ -1,4 +1,4 @@
-bjarkan (1.3.0) UNRELEASED; urgency=medium
+bjarkan (1.3.0) xenial; urgency=medium
 
   * [1ca1861] Update docs
   * [3a70fce] format fixes. Not sure why, but fixes #4
@@ -12,7 +12,7 @@ bjarkan (1.3.0) UNRELEASED; urgency=medium
   * [c1a7a3f] fix makefile helpers
   * [865e4d9] version bump
 
- -- Will DeBerry <wdeberry@getwellnetwork.com>  Wed, 15 Nov 2017 19:28:21 -0500
+ -- Will DeBerry <wdeberry@getwellnetwork.com>  Wed, 15 Nov 2017 19:28:27 -0500
 
 bjarkan (1.2.0) xenial; urgency=medium
 
